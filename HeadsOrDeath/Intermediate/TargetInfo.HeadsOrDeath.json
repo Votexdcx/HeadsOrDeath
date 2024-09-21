@@ -1,0 +1,14 @@
+{
+	"Targets": [
+		{
+			"Name": "HeadsOrDeath",
+			"Path": "../Source/HeadsOrDeath.Target.cs",
+			"Type": "Game"
+		},
+		{
+			"Name": "HeadsOrDeathEditor",
+			"Path": "../Source/HeadsOrDeathEditor.Target.cs",
+			"Type": "Editor"
+		}
+	]
+}
