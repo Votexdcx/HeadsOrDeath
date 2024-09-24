@@ -3959,4 +3959,13 @@
   Runtime/CoreUObject/Public/UObject/Class.h \
   ../Intermediate/Build/Mac/UnrealEditor/Inc/Engine/UHT/RootMotionSource.generated.h \
   ../Intermediate/Build/Mac/UnrealEditor/Inc/Engine/UHT/Character.generated.h \
-  /Users/joaopereira/iCloud\ Drive\ (Archive)/Desktop/GitHub/HeadsOrDeath/HeadsOrDeath/Intermediate/Build/Mac/UnrealEditor/Inc/HeadsOrDeath/UHT/Jon.generated.h
+  /Users/joaopereira/iCloud\ Drive\ (Archive)/Desktop/GitHub/HeadsOrDeath/HeadsOrDeath/Intermediate/Build/Mac/UnrealEditor/Inc/HeadsOrDeath/UHT/Jon.generated.h \
+  Runtime/Engine/Classes/GameFramework/SpringArmComponent.h \
+  Runtime/Engine/Classes/Components/SceneComponent.h \
+  ../Intermediate/Build/Mac/UnrealEditor/Inc/Engine/UHT/SpringArmComponent.generated.h \
+  Runtime/Engine/Classes/Camera/CameraComponent.h \
+  Runtime/CoreUObject/Public/UObject/ScriptInterface.h \
+  Runtime/Engine/Classes/Engine/BlendableInterface.h \
+  Runtime/Engine/Classes/Engine/Scene.h \
+  Runtime/Engine/Classes/Camera/CameraTypes.h \
+  ../Intermediate/Build/Mac/UnrealEditor/Inc/Engine/UHT/CameraComponent.generated.h

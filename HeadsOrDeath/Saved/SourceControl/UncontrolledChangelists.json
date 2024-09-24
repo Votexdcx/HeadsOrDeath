@@ -5,6 +5,10 @@
 			"guid": "00000000000000000000000000000000",
 			"description": "Default Uncontrolled Changelist",
 			"files": [
+				"/Users/joaopereira/iCloud Drive (Archive)/Desktop/GitHub/HeadsOrDeath/HeadsOrDeath/Content/Levels/DebugLevels/BasicDebugAndTesting_Level.umap",
+				"/Users/joaopereira/iCloud Drive (Archive)/Desktop/GitHub/HeadsOrDeath/HeadsOrDeath/Content/Blueprints/BP_JonCharacter.uasset",
+				"/Users/joaopereira/iCloud Drive (Archive)/Desktop/GitHub/HeadsOrDeath/HeadsOrDeath/Content/Blueprints/BP_GameMode.uasset",
+				"/Users/joaopereira/iCloud Drive (Archive)/Desktop/GitHub/HeadsOrDeath/HeadsOrDeath/Content/FirstPerson/Blueprints/BP_FirstPersonCharacter.uasset",
 				"/Users/joaopereira/iCloud Drive (Archive)/Desktop/GitHub/HeadsOrDeath/HeadsOrDeath/Content/1st_PersonTeamplate/LevelPrototyping/Meshes/SM_Ramp.uasset",
 				"/Users/joaopereira/iCloud Drive (Archive)/Desktop/GitHub/HeadsOrDeath/HeadsOrDeath/Content/LevelPrototyping/Meshes/SM_Ramp.uasset",
 				"/Users/joaopereira/iCloud Drive (Archive)/Desktop/GitHub/HeadsOrDeath/HeadsOrDeath/Content/1st_PersonTeamplate/LevelPrototyping/Meshes/SM_ChamferCube.uasset",
@@ -311,7 +315,6 @@
 				"/Users/joaopereira/iCloud Drive (Archive)/Desktop/GitHub/HeadsOrDeath/HeadsOrDeath/Content/FirstPerson/Input/Actions/IA_Jump.uasset",
 				"/Users/joaopereira/iCloud Drive (Archive)/Desktop/GitHub/HeadsOrDeath/HeadsOrDeath/Content/FirstPerson/Maps/FirstPersonMap_BuiltData.uasset",
 				"/Users/joaopereira/iCloud Drive (Archive)/Desktop/GitHub/HeadsOrDeath/HeadsOrDeath/Content/FPWeapon/Mesh/SK_FPGun.uasset",
-				"/Users/joaopereira/iCloud Drive (Archive)/Desktop/GitHub/HeadsOrDeath/HeadsOrDeath/Content/Levels/DebugLevels/BasicDebugAndTesting_Level.umap",
 				"/Users/joaopereira/iCloud Drive (Archive)/Desktop/GitHub/HeadsOrDeath/HeadsOrDeath/Content/__ExternalActors__/1st_PersonTemplate/FirstPerson/Maps/FirstPersonMap/6/MI/4GJN73A7YNCFLOWTIH7BWJ.uasset",
 				"/Users/joaopereira/iCloud Drive (Archive)/Desktop/GitHub/HeadsOrDeath/HeadsOrDeath/Content/__ExternalObjects__/1st_PersonTemplate/FirstPerson/Maps/FirstPersonMap/5/3Y/CT61AF8NWO2ADBK16OZMQA.uasset",
 				"/Users/joaopereira/iCloud Drive (Archive)/Desktop/GitHub/HeadsOrDeath/HeadsOrDeath/Content/__ExternalObjects__/1st_PersonTemplate/FirstPerson/Maps/FirstPersonMap/0/NS/0B1VE5XVWL2QVVI3A0W9VD.uasset",

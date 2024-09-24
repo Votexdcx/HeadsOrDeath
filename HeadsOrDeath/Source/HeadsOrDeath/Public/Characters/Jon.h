@@ -14,16 +14,28 @@ class HEADSORDEATH_API AJon : public ACharacter
 public:
 	// Sets default values for this character's properties
 	AJon();
-
-protected:
-	// Called when the game starts or when spawned
-	virtual void BeginPlay() override;
-
-public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
+protected:
+	// Called when the game starts or when spawned
+	virtual void BeginPlay() override;
+
+private:
+	void Movefoward(float Value);
+	void Moveside(float Value);
+	void Lookup(float Value);
+	void Lookaround(float Value);
+
+	UPROPERTY(VisibleAnywhere)
+	class UCameraComponent *Camera;
+	
+	UPROPERTY(EditAnywhere)
+	class USpringArmComponent *SpringArm;
+
+	UPROPERTY(EditAnywhere)
+	class USkeletalMeshComponent *SkeletalMesh;
 };
