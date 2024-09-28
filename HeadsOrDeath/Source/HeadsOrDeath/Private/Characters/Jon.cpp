@@ -35,7 +35,7 @@ void AJon::Movefoward(float Value)
 	{
 		FRotator CameraYaw = FRotator(0,Controller->GetControlRotation().Yaw,0);
 		FVector Forward  = FRotationMatrix(CameraYaw).GetUnitAxis(EAxis::X);
-		UE_LOG(LogTemp, Warning, TEXT("adfas %f"), Forward.X);
+		//UE_LOG(LogTemp, Warning, TEXT("adfas %f"), Forward.X);
 		AddMovementInput(Forward, Value);
 	}
 }
@@ -46,18 +46,24 @@ void AJon::Moveside(float Value)
 	{
 		FRotator CameraYaw = FRotator(0,Controller->GetControlRotation().Yaw,0);
 		FVector Right  = FRotationMatrix(CameraYaw).GetUnitAxis(EAxis::Y);
-		UE_LOG(LogTemp, Warning, TEXT("sadljsd"));
+		//UE_LOG(LogTemp, Warning, TEXT("sadljsd"));
 		AddMovementInput(Right, Value);
 	}
 }
 
 void AJon::Lookup(float Value)
 {
+	
+	float Pitch = Controller->GetControlRotation().Pitch;
 	AddControllerPitchInput(Value);
+	UE_LOG(LogTemp, Warning, TEXT("Pitch %f"), Pitch);
+	
 }
 
 void AJon::Lookaround(float Value)
 {
+	float Yaw = Controller->GetControlRotation().Yaw; 
+	UE_LOG(LogTemp, Warning, TEXT("Yaw %f"),Yaw);
 	AddControllerYawInput(Value);
 }
 
