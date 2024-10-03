@@ -5,6 +5,9 @@
 #include "Characters/Jon.h"
 #include "GameFramework/SpringArmComponent.h"
 #include "Camera/CameraComponent.h"
+#include "Components/CapsuleComponent.h"
+#include "GameFramework/CharacterMovementComponent.h"
+#include "Kismet/KismetMathLibrary.h"
 // Sets default values
 AJon::AJon()
 {
@@ -14,9 +17,10 @@ AJon::AJon()
 	Camera = CreateDefaultSubobject<UCameraComponent>(TEXT("Camera"));
 
 	SpringArm = CreateDefaultSubobject<USpringArmComponent>(TEXT("SpringArm"));
-
+	
+	RootComponent = GetCapsuleComponent();
 	SpringArm->SetupAttachment(RootComponent);
-	Camera->SetupAttachment(SpringArm);
+	Camera->SetupAttachment(GetMesh(),TEXT("center_of_mass"));
 	
 	AutoPossessPlayer = EAutoReceiveInput::Player0;
 
@@ -56,22 +60,41 @@ void AJon::Lookup(float Value)
 	
 	float Pitch = Controller->GetControlRotation().Pitch;
 	AddControllerPitchInput(Value);
-	UE_LOG(LogTemp, Warning, TEXT("Pitch %f"), Pitch);
-	
 }
 
 void AJon::Lookaround(float Value)
 {
 	float Yaw = Controller->GetControlRotation().Yaw; 
-	UE_LOG(LogTemp, Warning, TEXT("Yaw %f"),Yaw);
 	AddControllerYawInput(Value);
+}
+
+void AJon::Slide(float Value)
+{
+	if (Value == 0)
+	{
+		return;
+	}
+	if (CanSlide == false)
+	{
+		CanSlide = true;
+		GetWorldTimerManager().SetTimer(SlideTimeHandler,this,&AJon::ResetSlide,0.1f,false);
+	}
+}
+
+void AJon::ResetSlide()
+{
+	UE_LOG(LogTemp, Warning, TEXT("Timer"));
+	CanSlide = false;
 }
 
 // Called every frame
 void AJon::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-
+	if (UKismetMathLibrary::VSizeXY(GetCharacterMovement()->Velocity)<500.f)
+	{
+		GetCharacterMovement()->Velocity = 20.0f; 
+	}
 }
 
 // Called to bind functionality to input
@@ -83,6 +106,8 @@ void AJon::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 	PlayerInputComponent->BindAxis("MoveSide",this, &AJon::Moveside);
 	PlayerInputComponent->BindAxis("Lookup",this, &AJon::Lookup);
 	PlayerInputComponent->BindAxis("LookSide",this, &AJon::Lookaround);
-
+	PlayerInputComponent->BindAxis("Slide",this, &AJon::Slide);
 }
+
+
 

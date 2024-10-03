@@ -11,7 +11,7 @@
  {
 	Super::NativeInitializeAnimation();
  	Jon =Cast<AJon>(TryGetPawnOwner());
-	if (Jon !=nullptr)
+	if (Jon != nullptr)
 	{
 		JonMovementComponent = Jon->GetCharacterMovement();
 	}
@@ -24,4 +24,22 @@
 	{
 	 Speed = UKismetMathLibrary::VSizeXY(JonMovementComponent->Velocity);
 	}
+ 	SlideAnimation(DeltaSeconds);
+ }
+
+ void UJonAnimInstance::SlideAnimation(float DeltaSeconds)
+ {
+ 	if (Jon == nullptr)
+ 	{
+ 		return;
+ 	}
+ 	if (Jon->CanSlide == true)
+ 	{
+ 		UE_LOG(LogTemp, Warning, TEXT("canplayslideanim true"));
+ 		CanPlaySlideAnim = true;
+ 	}
+ 	else
+ 	{
+ 		CanPlaySlideAnim = false;
+ 	}
  }
