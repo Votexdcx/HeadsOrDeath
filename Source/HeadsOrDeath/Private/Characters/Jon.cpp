@@ -93,7 +93,7 @@ void AJon::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 	if (UKismetMathLibrary::VSizeXY(GetCharacterMovement()->Velocity)<500.f)
 	{
-		GetCharacterMovement()->Velocity = 20.0f; 
+
 	}
 }
 
