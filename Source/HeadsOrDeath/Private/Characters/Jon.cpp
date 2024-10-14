@@ -132,18 +132,6 @@ void AJon::SlideCooldown()
 	CanSlide = false;
 }
 
-<<<<<<< Updated upstream
-// Called every frame
-void AJon::Tick(float DeltaTime)
-{
-	Super::Tick(DeltaTime);
-	if (UKismetMathLibrary::VSizeXY(GetCharacterMovement()->Velocity)<500.f)
-	{
-		GetCharacterMovement()->Velocity = 20.0f; 
-	}
-}
-=======
->>>>>>> Stashed changes
 
 // Called to bind functionality to input
 void AJon::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
