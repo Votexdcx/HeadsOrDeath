@@ -3,7 +3,8 @@
 
 
 #include "Characters/Jon.h"
-#include "GameFramework/SpringArmComponent.h"
+
+
 #include "Camera/CameraComponent.h"
 #include "Components/CapsuleComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
@@ -14,32 +15,40 @@ AJon::AJon()
  	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
-	Camera = CreateDefaultSubobject<UCameraComponent>(TEXT("Camera"));
-
-	SpringArm = CreateDefaultSubobject<USpringArmComponent>(TEXT("SpringArm"));
-	
+	CameraReal = CreateDefaultSubobject<UCameraComponent>(TEXT("CameraComponent"));
 	RootComponent = GetCapsuleComponent();
-	SpringArm->SetupAttachment(RootComponent);
-	Camera->SetupAttachment(GetMesh(),TEXT("center_of_mass"));
-	
+	CameraReal->SetupAttachment(RootComponent);
+	GetMesh()->SetupAttachment(CameraReal);
+	CameraReal->bUsePawnControlRotation = true;
+
 	AutoPossessPlayer = EAutoReceiveInput::Player0;
 
+	//SlideVariables
+
+	MaxWalkSpeed = GetCharacterMovement()->MaxWalkSpeed;
+	SlideSpeed = 2000.f;
+	CanSlide = false;
 }
 
 // Called when the game starts or when spawned
 void AJon::BeginPlay()
 {
 	Super::BeginPlay();
-	
+	//GEngine->AddOnScreenDebugMessage(1,10.f,FColor::Black,FString::Printf(TEXT("halfheight Value: %f"), CapsuleComponentHalfHeight));
+	//GEngine->AddOnScreenDebugMessage(1,10.f,FColor::Black,FString::Printf(TEXT("halfheight Value: %f"), GetMesh()->GetComponentScale().Z));
+
 }
 
+void AJon::Tick(float DeltaTime)
+{
+	Super::Tick(DeltaTime);
+}
 void AJon::Movefoward(float Value)
 {
 	if (Controller != nullptr && Value)
 	{
 		FRotator CameraYaw = FRotator(0,Controller->GetControlRotation().Yaw,0);
 		FVector Forward  = FRotationMatrix(CameraYaw).GetUnitAxis(EAxis::X);
-		//UE_LOG(LogTemp, Warning, TEXT("adfas %f"), Forward.X);
 		AddMovementInput(Forward, Value);
 	}
 }
@@ -50,21 +59,17 @@ void AJon::Moveside(float Value)
 	{
 		FRotator CameraYaw = FRotator(0,Controller->GetControlRotation().Yaw,0);
 		FVector Right  = FRotationMatrix(CameraYaw).GetUnitAxis(EAxis::Y);
-		//UE_LOG(LogTemp, Warning, TEXT("sadljsd"));
 		AddMovementInput(Right, Value);
 	}
 }
 
 void AJon::Lookup(float Value)
 {
-	
-	float Pitch = Controller->GetControlRotation().Pitch;
 	AddControllerPitchInput(Value);
 }
 
 void AJon::Lookaround(float Value)
 {
-	float Yaw = Controller->GetControlRotation().Yaw; 
 	AddControllerYawInput(Value);
 }
 
@@ -72,21 +77,62 @@ void AJon::Slide(float Value)
 {
 	if (Value == 0)
 	{
+		//UnCrouch();
+		/*if (CanSlide == true)
+		{
+			GEngine->AddOnScreenDebugMessage(1,10.f,FColor::Black,FString::Printf(TEXT("Slide value = 0 canslide = true")));
+			GetWorldTimerManager().SetTimer(SlideTimeHandler,this,&AJon::EndSlide,0.5f,false);
+			//CanSlide = false;
+			return;
+		}
+		*/
+		//CanSlide = false;
+		//UnCrouch();
 		return;
 	}
+	
 	if (CanSlide == false)
 	{
+		GEngine->AddOnScreenDebugMessage(1,10.f,FColor::Black,FString::Printf(TEXT("slide true: %f")));
 		CanSlide = true;
-		GetWorldTimerManager().SetTimer(SlideTimeHandler,this,&AJon::ResetSlide,0.1f,false);
+		GetWorldTimerManager().SetTimer(SlideTimeHandler,this,&AJon::SlideCooldown,1.f,false);
+		BeginSlide();
 	}
+
 }
 
-void AJon::ResetSlide()
+void AJon::BeginSlide()
 {
+	Crouch();
+	GetWorldTimerManager().SetTimer(SlideTimeHandler,this,&AJon::Sliding,0.01f,false);
+}
+
+void AJon::Sliding()
+{
+	FRotator CameraYaw = FRotator(0,Controller->GetControlRotation().Yaw,0);
+	FVector Forward  = FRotationMatrix(CameraYaw).GetUnitAxis(EAxis::X);
+	GetCharacterMovement()->GroundFriction = 0.2f;
+	LaunchCharacter(Forward * SlideSpeed, true, true);
 	UE_LOG(LogTemp, Warning, TEXT("Timer"));
+	GetWorldTimerManager().SetTimer(SlideTimeHandler,this,&AJon::EndSlide,0.5f,false);
+
+}
+
+void AJon::EndSlide()
+{
+	GetCharacterMovement()->GroundFriction = 2.f;
+	UnCrouch();
+	GetWorldTimerManager().SetTimer(SlideTimeHandler,this,&AJon::SlideCooldown,0.5f,false);
+
+	//CanSlide = false;
+}
+
+void AJon::SlideCooldown()
+{
 	CanSlide = false;
 }
 
+<<<<<<< Updated upstream
 // Called every frame
 void AJon::Tick(float DeltaTime)
 {
@@ -96,6 +142,8 @@ void AJon::Tick(float DeltaTime)
 		GetCharacterMovement()->Velocity = 20.0f; 
 	}
 }
+=======
+>>>>>>> Stashed changes
 
 // Called to bind functionality to input
 void AJon::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
