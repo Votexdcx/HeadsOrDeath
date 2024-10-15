@@ -36,9 +36,6 @@ private:
 	void Lookup(float Value);
 	void Lookaround(float Value);
 	void Slide(float Value);
-
-
-	//slide funtions
 	
 	class USpringArmComponent *SpringArm;
 
@@ -48,6 +45,9 @@ private:
 	FTimerHandle SlideTimeHandler;
 	FTimerHandle SlideTimeHandler2;
 
+	//GamePlay
+
+	FVector CameraDirection(EAxis::Type Direction);
 
 	//Slide
 
@@ -56,7 +56,6 @@ private:
 	void Sliding();
 	void EndSlide();
 	void SlideCooldown();
-
 
 
 	//Slide Variables

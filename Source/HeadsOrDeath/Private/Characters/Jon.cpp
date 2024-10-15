@@ -8,7 +8,6 @@
 #include "Camera/CameraComponent.h"
 #include "Components/CapsuleComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
-#include "Kismet/KismetMathLibrary.h"
 // Sets default values
 AJon::AJon()
 {
@@ -47,8 +46,7 @@ void AJon::Movefoward(float Value)
 {
 	if (Controller != nullptr && Value)
 	{
-		FRotator CameraYaw = FRotator(0,Controller->GetControlRotation().Yaw,0);
-		FVector Forward  = FRotationMatrix(CameraYaw).GetUnitAxis(EAxis::X);
+		FVector Forward = CameraDirection(EAxis::X);
 		AddMovementInput(Forward, Value);
 	}
 }
@@ -57,8 +55,7 @@ void AJon::Moveside(float Value)
 {
 	if (Controller != nullptr && Value)
 	{
-		FRotator CameraYaw = FRotator(0,Controller->GetControlRotation().Yaw,0);
-		FVector Right  = FRotationMatrix(CameraYaw).GetUnitAxis(EAxis::Y);
+		FVector Right = CameraDirection(EAxis::Y);
 		AddMovementInput(Right, Value);
 	}
 }
@@ -109,11 +106,9 @@ void AJon::BeginSlide()
 
 void AJon::Sliding()
 {
-	FRotator CameraYaw = FRotator(0,Controller->GetControlRotation().Yaw,0);
-	FVector Forward  = FRotationMatrix(CameraYaw).GetUnitAxis(EAxis::X);
+	FVector Forward = CameraDirection(EAxis::X);
 	GetCharacterMovement()->GroundFriction = 0.2f;
 	LaunchCharacter(Forward * SlideSpeed, true, true);
-	UE_LOG(LogTemp, Warning, TEXT("Timer"));
 	GetWorldTimerManager().SetTimer(SlideTimeHandler,this,&AJon::EndSlide,0.5f,false);
 
 }
@@ -143,6 +138,13 @@ void AJon::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 	PlayerInputComponent->BindAxis("Lookup",this, &AJon::Lookup);
 	PlayerInputComponent->BindAxis("LookSide",this, &AJon::Lookaround);
 	PlayerInputComponent->BindAxis("Slide",this, &AJon::Slide);
+}
+
+FVector AJon::CameraDirection(EAxis::Type Direction)
+{
+	FRotator CameraYaw = FRotator(0,Controller->GetControlRotation().Yaw,0);
+	FVector CameraDirection  = FRotationMatrix(CameraYaw).GetUnitAxis(Direction);
+	return CameraDirection;
 }
 
 
