@@ -19,30 +19,47 @@ public:
 
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+	bool CanSlide;
 
-	UPROPERTY(BlueprintReadWrite, Category = "AnimationAsset")
-	UAnimMontage *SlideAnimMontage;
-	bool CanSlide = false;
+	UPROPERTY(EditAnywhere)
+	class UCameraComponent *CameraReal;
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
 private:
-	void ResetSlide();
+
+	//Input Functions
 	void Movefoward(float Value);
 	void Moveside(float Value);
 	void Lookup(float Value);
 	void Lookaround(float Value);
 	void Slide(float Value);
 	
-	UPROPERTY(VisibleAnywhere)
-	class UCameraComponent *Camera;
-	
-	UPROPERTY(EditAnywhere)
 	class USpringArmComponent *SpringArm;
 
 	UPROPERTY(EditAnywhere)
 	class USkeletalMeshComponent *SkeletalMesh;
 
 	FTimerHandle SlideTimeHandler;
+	FTimerHandle SlideTimeHandler2;
+
+	//GamePlay
+
+	FVector CameraDirection(EAxis::Type Direction);
+
+	//Slide
+
+	//Slide functions
+	void BeginSlide();
+	void Sliding();
+	void EndSlide();
+	void SlideCooldown();
+
+
+	//Slide Variables
+	float MaxWalkSpeed;
+	float SlideSpeed;
+	
 };
