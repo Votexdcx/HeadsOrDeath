@@ -6,6 +6,7 @@
 #include "GameFramework/Character.h"
 #include "Jon.generated.h"
 
+
 UCLASS()
 class HEADSORDEATH_API AJon : public ACharacter
 {
@@ -21,6 +22,7 @@ public:
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 	bool CanSlide;
 
+	class AJonPlayerController* AJonPlayerControllerVar;
 	UPROPERTY(EditAnywhere)
 	class UCameraComponent *CameraReal;
 
@@ -49,6 +51,7 @@ private:
 
 	FVector CameraDirection(EAxis::Type Direction);
 
+public:
 	//Slide
 
 	//Slide functions
@@ -59,7 +62,62 @@ private:
 
 
 	//Slide Variables
-	float MaxWalkSpeed;
+	float DefaultMaxspeed;
 	float SlideSpeed;
+
+
+
+	//Buff Code
+
+private:
+
+	FTimerHandle ResetCooldownTimerHandle;
+
+	
+protected:
+
+	//Variable
+	UPROPERTY(BlueprintReadOnly, Category="Buff")
+	int BuffSelection;
+	
+	//Buff Functions
+public:
+	UFUNCTION(Blueprintable)
+	void Buff1();
+	UFUNCTION(Blueprintable)
+	void Buff2();
+	UFUNCTION(Blueprintable)
+	void Buff3();
+	UFUNCTION(Blueprintable)
+	void ActivateBuff();
+	UFUNCTION(Blueprintable)
+	void DeactivateBuff();
+	
+
+
+	//Buff effecs function
+
+	//buffs
+	void Invicibility();
+	void DashResets();
+	void ExplosiveBullet();
+	
+	//buffs +
+
+	void InvicibilityPlus();
+	void DashResettimer();
+	void ExplosiveBullet3();
+
+
+	//Debuffs
+	void PlayerTakesMoreDmg();
+	void MinusMovementSpeed();
+	void LessDamageGiven();
+	
+	//Debuffs+
+
+	void PlayerTakesEvenMoreDmg();
+	void GetsStun();
+	void LessDamageGivenPLUS();
 	
 };

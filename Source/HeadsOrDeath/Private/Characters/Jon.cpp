@@ -6,8 +6,10 @@
 
 
 #include "Camera/CameraComponent.h"
+#include "Characters/JonPlayerController.h"
 #include "Components/CapsuleComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
+#include "Widgets/BuffsWidgets.h"
 // Sets default values
 AJon::AJon()
 {
@@ -24,7 +26,7 @@ AJon::AJon()
 
 	//SlideVariables
 
-	MaxWalkSpeed = GetCharacterMovement()->MaxWalkSpeed;
+	DefaultMaxspeed = GetCharacterMovement()->MaxWalkSpeed;
 	SlideSpeed = 2000.f;
 	CanSlide = false;
 }
@@ -33,6 +35,11 @@ AJon::AJon()
 void AJon::BeginPlay()
 {
 	Super::BeginPlay();
+	AJonPlayerControllerVar = Cast<AJonPlayerController>(GetController());
+	if (AJonPlayerControllerVar != nullptr)
+	{
+		GEngine->AddOnScreenDebugMessage(1,10.f,FColor::Black,FString::Printf(TEXT("Controller is not null")));
+	}
 	//GEngine->AddOnScreenDebugMessage(1,10.f,FColor::Black,FString::Printf(TEXT("halfheight Value: %f"), CapsuleComponentHalfHeight));
 	//GEngine->AddOnScreenDebugMessage(1,10.f,FColor::Black,FString::Printf(TEXT("halfheight Value: %f"), GetMesh()->GetComponentScale().Z));
 
@@ -41,6 +48,9 @@ void AJon::BeginPlay()
 void AJon::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+	GEngine->AddOnScreenDebugMessage(1,10.f,FColor::Black,FString::Printf(TEXT("defaultmovementspeed: %f"), DefaultMaxspeed));
+	GEngine->AddOnScreenDebugMessage(0,10.f,FColor::Black,FString::Printf(TEXT("movementspeed: %f"), GetCharacterMovement()->MaxWalkSpeed));
+
 }
 void AJon::Movefoward(float Value)
 {
@@ -127,6 +137,61 @@ void AJon::SlideCooldown()
 	CanSlide = false;
 }
 
+void AJon::Buff1()
+{
+	BuffSelection = 0;
+}
+
+void AJon::Buff2()
+{
+	BuffSelection = 1;
+}
+
+void AJon::Buff3()
+{
+	BuffSelection = 2;
+}
+
+void AJon::ActivateBuff()
+{
+	if (FMath::RandBool())
+	{
+		switch (BuffSelection)
+		{
+		case 0:
+			Invicibility();
+			break;
+		case 1:
+			DashResets();
+			break;
+		case 2:
+			ExplosiveBullet();
+			break;
+		}
+	}
+	else
+	{
+		switch (BuffSelection)
+		{
+		case 0:
+			PlayerTakesMoreDmg();
+			break;
+		case 1:
+			MinusMovementSpeed();
+			break;
+		case 2:
+			LessDamageGiven();
+			break;
+		}
+	}
+	
+}
+
+void AJon::DeactivateBuff()
+{
+	GetCharacterMovement()->MaxWalkSpeed = DefaultMaxspeed;
+}
+
 
 // Called to bind functionality to input
 void AJon::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
@@ -145,6 +210,70 @@ FVector AJon::CameraDirection(EAxis::Type Direction)
 	FRotator CameraYaw = FRotator(0,Controller->GetControlRotation().Yaw,0);
 	FVector CameraDirection  = FRotationMatrix(CameraYaw).GetUnitAxis(Direction);
 	return CameraDirection;
+}
+
+void AJon::Invicibility()
+{
+	AJonPlayerControllerVar->BuffsWidgets->Highlight(FText::FromString("Buff: invencibilidade"), FColor::Green);
+}
+
+void AJon::DashResets()
+{
+	AJonPlayerControllerVar->BuffsWidgets->Highlight(FText::FromString("Buff: Dash Reset"),FColor::Green);
+}
+
+void AJon::ExplosiveBullet()
+{
+	AJonPlayerControllerVar->BuffsWidgets->Highlight(FText::FromString("Buff: Bala Explosiva"),FColor::Green);
+}
+void AJon::InvicibilityPlus()
+{
+	AJonPlayerControllerVar->BuffsWidgets->Highlight(FText::FromString("Buff+: InvicibilityPlus"), FColor::Green);
+}
+
+void AJon::DashResettimer()
+{
+	AJonPlayerControllerVar->BuffsWidgets->Highlight(FText::FromString("Buff+: Reset Dash Timer com cada kill"), FColor::Green);
+}
+
+void AJon::ExplosiveBullet3()
+{
+	AJonPlayerControllerVar->BuffsWidgets->Highlight(FText::FromString("3 Balas Explosivas"), FColor::Green);
+}
+
+void AJon::PlayerTakesMoreDmg()
+{
+	AJonPlayerControllerVar->BuffsWidgets->Highlight(FText::FromString("Debuff: Jogador esta a levar mais 25% de dano"), FColor::Red);
+}
+
+void AJon::MinusMovementSpeed()
+{
+	AJonPlayerControllerVar->BuffsWidgets->Highlight(FText::FromString("Debuff: O jogador tem menos moviment speed"),FColor::Red);
+	GetCharacterMovement()->MaxWalkSpeed /= 1.5; 
+	GetWorldTimerManager().SetTimer(ResetCooldownTimerHandle,this, &AJon::DeactivateBuff, 10.f, false);
+}
+
+void AJon::LessDamageGiven()
+{
+	AJonPlayerControllerVar->BuffsWidgets->Highlight(FText::FromString("Debuff: O jogador esta a dar menos dano aos enimigos"),FColor::Red);
+
+}
+
+void AJon::PlayerTakesEvenMoreDmg()
+{
+	AJonPlayerControllerVar->BuffsWidgets->Highlight(FText::FromString("Debuff+: o jogador esta a levar 50% mais dano"),FColor::Red);
+
+}
+
+void AJon::GetsStun()
+{
+	AJonPlayerControllerVar->BuffsWidgets->Highlight(FText::FromString("Debuff:+: o jogador esta stunned"),FColor::Red);
+
+}
+
+void AJon::LessDamageGivenPLUS()
+{
+	AJonPlayerControllerVar->BuffsWidgets->Highlight(FText::FromString("Debuff+: o jogador da menos 50% dano aos enimigos"),FColor::Red);
 }
 
 
