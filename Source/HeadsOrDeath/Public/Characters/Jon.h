@@ -23,7 +23,7 @@ public:
 	bool CanSlide;
 
 	class AJonPlayerController* AJonPlayerControllerVar;
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	class UCameraComponent *CameraReal;
 
 protected:
