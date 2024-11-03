@@ -18,12 +18,13 @@ public:
 	AJonPlayerController();
 	UPROPERTY(BlueprintReadWrite)
 	class UBuffsWidgets* BuffsWidgets;
-
+	class UBuffDebuffComponent* UBuffDebuffComponentInstance;
 protected:
 	virtual void BeginPlay() override;
 
 	virtual void Tick(float DeltaSeconds) override;
 	virtual void SetupInputComponent() override;
+	void Jump();
 
 	//BUFF CODE
 	
