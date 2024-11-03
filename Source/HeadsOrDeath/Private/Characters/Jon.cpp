@@ -7,6 +7,7 @@
 
 #include "Camera/CameraComponent.h"
 #include "Components/CapsuleComponent.h"
+#include "Characters/BuffDebuffComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "Kismet/KismetMathLibrary.h"
 // Sets default values
@@ -33,10 +34,12 @@ AJon::AJon()
 // Called when the game starts or when spawned
 void AJon::BeginPlay()
 {
+	
 	Super::BeginPlay();
 	//GEngine->AddOnScreenDebugMessage(1,10.f,FColor::Black,FString::Printf(TEXT("halfheight Value: %f"), CapsuleComponentHalfHeight));
 	//GEngine->AddOnScreenDebugMessage(1,10.f,FColor::Black,FString::Printf(TEXT("halfheight Value: %f"), GetMesh()->GetComponentScale().Z));
 
+	BuffDebuffComponent = FindComponentByClass<UBuffDebuffComponent>();
 }
 
 void AJon::Tick(float DeltaTime)
@@ -90,6 +93,10 @@ void AJon::Slide(float Value)
 		//UnCrouch();
 		return;
 	}
+	if(GetCharacterMovement()->IsFalling() == true)
+	{
+		return;
+	}
 	
 	if (CanSlide == false)
 	{
@@ -99,6 +106,13 @@ void AJon::Slide(float Value)
 		BeginSlide();
 	}
 
+}
+
+void AJon::Jump()
+{
+	Super::Jump();
+	GEngine->AddOnScreenDebugMessage(1,10.f,FColor::Black,FString::Printf(TEXT("jumpjon2")));
+	
 }
 
 void AJon::BeginSlide()
@@ -132,6 +146,11 @@ void AJon::SlideCooldown()
 	CanSlide = false;
 }
 
+<<<<<<< Updated upstream
+=======
+
+
+>>>>>>> Stashed changes
 
 // Called to bind functionality to input
 void AJon::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
@@ -145,5 +164,14 @@ void AJon::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 	PlayerInputComponent->BindAxis("Slide",this, &AJon::Slide);
 }
 
+<<<<<<< Updated upstream
 
 
+=======
+FVector AJon::CameraDirection(EAxis::Type Direction)
+{
+	FRotator CameraYaw = FRotator(0,Controller->GetControlRotation().Yaw,0);
+	FVector CameraDirection  = FRotationMatrix(CameraYaw).GetUnitAxis(Direction);
+	return CameraDirection;
+}
+>>>>>>> Stashed changes
