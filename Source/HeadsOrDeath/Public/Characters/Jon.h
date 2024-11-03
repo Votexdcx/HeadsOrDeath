@@ -41,13 +41,13 @@ public:
 	void Lookup(float Value);
 	void Lookaround(float Value);
 	void Slide(float Value);
-<<<<<<< Updated upstream
+
 
 
 	//slide funtions
-=======
+
 	void Jump() override;
->>>>>>> Stashed changes
+
 	
 	class USpringArmComponent *SpringArm;
 
@@ -71,8 +71,7 @@ public:
 	//Slide Variables
 	float MaxWalkSpeed;
 	float SlideSpeed;
-<<<<<<< Updated upstream
-=======
+
 
 
 
@@ -91,6 +90,7 @@ public:
 	
 	//Buff Functions
 public:
->>>>>>> Stashed changes
+	FVector CameraDirection(EAxis::Type Direction);
+
 	
 };

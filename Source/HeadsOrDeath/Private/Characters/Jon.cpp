@@ -146,11 +146,7 @@ void AJon::SlideCooldown()
 	CanSlide = false;
 }
 
-<<<<<<< Updated upstream
-=======
 
-
->>>>>>> Stashed changes
 
 // Called to bind functionality to input
 void AJon::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
@@ -164,14 +160,11 @@ void AJon::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 	PlayerInputComponent->BindAxis("Slide",this, &AJon::Slide);
 }
 
-<<<<<<< Updated upstream
 
-
-=======
 FVector AJon::CameraDirection(EAxis::Type Direction)
 {
 	FRotator CameraYaw = FRotator(0,Controller->GetControlRotation().Yaw,0);
 	FVector CameraDirection  = FRotationMatrix(CameraYaw).GetUnitAxis(Direction);
 	return CameraDirection;
 }
->>>>>>> Stashed changes
+
