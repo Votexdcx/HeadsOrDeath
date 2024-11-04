@@ -7,7 +7,9 @@
 
 #include "Camera/CameraComponent.h"
 #include "Components/CapsuleComponent.h"
+#include "Characters/BuffDebuffComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
+#include "Kismet/KismetMathLibrary.h"
 // Sets default values
 AJon::AJon()
 {
@@ -32,10 +34,12 @@ AJon::AJon()
 // Called when the game starts or when spawned
 void AJon::BeginPlay()
 {
+	
 	Super::BeginPlay();
 	//GEngine->AddOnScreenDebugMessage(1,10.f,FColor::Black,FString::Printf(TEXT("halfheight Value: %f"), CapsuleComponentHalfHeight));
 	//GEngine->AddOnScreenDebugMessage(1,10.f,FColor::Black,FString::Printf(TEXT("halfheight Value: %f"), GetMesh()->GetComponentScale().Z));
 
+	BuffDebuffComponent = FindComponentByClass<UBuffDebuffComponent>();
 }
 
 void AJon::Tick(float DeltaTime)
@@ -46,7 +50,8 @@ void AJon::Movefoward(float Value)
 {
 	if (Controller != nullptr && Value)
 	{
-		FVector Forward = CameraDirection(EAxis::X);
+		FRotator CameraYaw = FRotator(0,Controller->GetControlRotation().Yaw,0);
+		FVector Forward  = FRotationMatrix(CameraYaw).GetUnitAxis(EAxis::X);
 		AddMovementInput(Forward, Value);
 	}
 }
@@ -55,7 +60,8 @@ void AJon::Moveside(float Value)
 {
 	if (Controller != nullptr && Value)
 	{
-		FVector Right = CameraDirection(EAxis::Y);
+		FRotator CameraYaw = FRotator(0,Controller->GetControlRotation().Yaw,0);
+		FVector Right  = FRotationMatrix(CameraYaw).GetUnitAxis(EAxis::Y);
 		AddMovementInput(Right, Value);
 	}
 }
@@ -87,6 +93,10 @@ void AJon::Slide(float Value)
 		//UnCrouch();
 		return;
 	}
+	if(GetCharacterMovement()->IsFalling() == true)
+	{
+		return;
+	}
 	
 	if (CanSlide == false)
 	{
@@ -98,6 +108,13 @@ void AJon::Slide(float Value)
 
 }
 
+void AJon::Jump()
+{
+	Super::Jump();
+	GEngine->AddOnScreenDebugMessage(1,10.f,FColor::Black,FString::Printf(TEXT("jumpjon2")));
+	
+}
+
 void AJon::BeginSlide()
 {
 	Crouch();
@@ -106,9 +123,11 @@ void AJon::BeginSlide()
 
 void AJon::Sliding()
 {
-	FVector Forward = CameraDirection(EAxis::X);
+	FRotator CameraYaw = FRotator(0,Controller->GetControlRotation().Yaw,0);
+	FVector Forward  = FRotationMatrix(CameraYaw).GetUnitAxis(EAxis::X);
 	GetCharacterMovement()->GroundFriction = 0.2f;
 	LaunchCharacter(Forward * SlideSpeed, true, true);
+	UE_LOG(LogTemp, Warning, TEXT("Timer"));
 	GetWorldTimerManager().SetTimer(SlideTimeHandler,this,&AJon::EndSlide,0.5f,false);
 
 }
@@ -128,6 +147,7 @@ void AJon::SlideCooldown()
 }
 
 
+
 // Called to bind functionality to input
 void AJon::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
@@ -140,12 +160,11 @@ void AJon::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 	PlayerInputComponent->BindAxis("Slide",this, &AJon::Slide);
 }
 
+
 FVector AJon::CameraDirection(EAxis::Type Direction)
 {
 	FRotator CameraYaw = FRotator(0,Controller->GetControlRotation().Yaw,0);
 	FVector CameraDirection  = FRotationMatrix(CameraYaw).GetUnitAxis(Direction);
 	return CameraDirection;
 }
-
-
 

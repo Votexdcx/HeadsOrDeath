@@ -21,14 +21,19 @@ public:
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 	bool CanSlide;
 
+<<<<<<< Updated upstream
 	UPROPERTY(EditAnywhere)
+=======
+	class AJonPlayerController* AJonPlayerControllerVar;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+>>>>>>> Stashed changes
 	class UCameraComponent *CameraReal;
 
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
-private:
+public:
 
 	//Input Functions
 	void Movefoward(float Value);
@@ -36,18 +41,22 @@ private:
 	void Lookup(float Value);
 	void Lookaround(float Value);
 	void Slide(float Value);
+
+
+
+	//slide funtions
+
+	void Jump() override;
+
 	
 	class USpringArmComponent *SpringArm;
 
 	UPROPERTY(EditAnywhere)
 	class USkeletalMeshComponent *SkeletalMesh;
-
+	class UBuffDebuffComponent* BuffDebuffComponent;
 	FTimerHandle SlideTimeHandler;
 	FTimerHandle SlideTimeHandler2;
 
-	//GamePlay
-
-	FVector CameraDirection(EAxis::Type Direction);
 
 	//Slide
 
@@ -58,8 +67,30 @@ private:
 	void SlideCooldown();
 
 
+
 	//Slide Variables
 	float MaxWalkSpeed;
 	float SlideSpeed;
+
+
+
+
+	//Buff Code
+
+private:
+
+	FTimerHandle ResetCooldownTimerHandle;
+
+	
+public:
+
+	//Variable
+	UPROPERTY(BlueprintReadOnly, Category="Buff")
+	int BuffSelection;
+	
+	//Buff Functions
+public:
+	FVector CameraDirection(EAxis::Type Direction);
+
 	
 };
