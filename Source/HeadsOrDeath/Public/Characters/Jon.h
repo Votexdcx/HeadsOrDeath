@@ -6,6 +6,7 @@
 #include "GameFramework/Character.h"
 #include "Jon.generated.h"
 
+
 UCLASS()
 class HEADSORDEATH_API AJon : public ACharacter
 {
@@ -21,19 +22,15 @@ public:
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 	bool CanSlide;
 
-<<<<<<< Updated upstream
-	UPROPERTY(EditAnywhere)
-=======
 	class AJonPlayerController* AJonPlayerControllerVar;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
->>>>>>> Stashed changes
 	class UCameraComponent *CameraReal;
 
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
-public:
+private:
 
 	//Input Functions
 	void Movefoward(float Value);
@@ -41,23 +38,20 @@ public:
 	void Lookup(float Value);
 	void Lookaround(float Value);
 	void Slide(float Value);
-
-
-
-	//slide funtions
-
-	void Jump() override;
-
 	
 	class USpringArmComponent *SpringArm;
 
 	UPROPERTY(EditAnywhere)
 	class USkeletalMeshComponent *SkeletalMesh;
-	class UBuffDebuffComponent* BuffDebuffComponent;
+
 	FTimerHandle SlideTimeHandler;
 	FTimerHandle SlideTimeHandler2;
 
+	//GamePlay
 
+	FVector CameraDirection(EAxis::Type Direction);
+
+public:
 	//Slide
 
 	//Slide functions
@@ -67,11 +61,9 @@ public:
 	void SlideCooldown();
 
 
-
 	//Slide Variables
-	float MaxWalkSpeed;
+	float DefaultMaxspeed;
 	float SlideSpeed;
-
 
 
 
@@ -82,7 +74,7 @@ private:
 	FTimerHandle ResetCooldownTimerHandle;
 
 	
-public:
+protected:
 
 	//Variable
 	UPROPERTY(BlueprintReadOnly, Category="Buff")
@@ -90,7 +82,42 @@ public:
 	
 	//Buff Functions
 public:
-	FVector CameraDirection(EAxis::Type Direction);
+	UFUNCTION(Blueprintable)
+	void Buff1();
+	UFUNCTION(Blueprintable)
+	void Buff2();
+	UFUNCTION(Blueprintable)
+	void Buff3();
+	UFUNCTION(Blueprintable)
+	void ActivateBuff();
+	UFUNCTION(Blueprintable)
+	void DeactivateBuff();
+	
 
+
+	//Buff effecs function
+
+	//buffs
+	void Invicibility();
+	void DashResets();
+	void ExplosiveBullet();
+	
+	//buffs +
+
+	void InvicibilityPlus();
+	void DashResettimer();
+	void ExplosiveBullet3();
+
+
+	//Debuffs
+	void PlayerTakesMoreDmg();
+	void MinusMovementSpeed();
+	void LessDamageGiven();
+	
+	//Debuffs+
+
+	void PlayerTakesEvenMoreDmg();
+	void GetsStun();
+	void LessDamageGivenPLUS();
 	
 };
