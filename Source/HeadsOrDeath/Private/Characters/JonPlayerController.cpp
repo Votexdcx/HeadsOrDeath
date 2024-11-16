@@ -67,14 +67,9 @@ void AJonPlayerController::Buff3(float Value)
 
 void AJonPlayerController::InputActionActivateBuff()
 {
-	/*if(CanUseCoin == true)
-	{
-		CanUseCoin = false;
-		Jon->ActivateBuff();
-		UBuffDebuffComponentInstance;
-		GetWorldTimerManager().SetTimer(CinTimerHandle,this,&AJonPlayerController::CoinReset,CoinCoolDownTimer,false);
-	}
-	*/
+	CanUseCoin = false;
+	UBuffDebuffComponentInstance->ActivateBuff();
+	//GetWorldTimerManager().SetTimer(CinTimerHandle,this,&AJonPlayerController::CoinReset,CoinCoolDownTimer,false);
 }
 
 void AJonPlayerController::CoinReset()

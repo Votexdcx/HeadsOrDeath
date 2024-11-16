@@ -5,6 +5,7 @@
 
 #include "Characters/Jon.h"
 #include "Characters/JonPlayerController.h"
+#include "GameFramework/CharacterMovementComponent.h"
 #include "Widgets/BuffsWidgets.h"
 
 
@@ -19,6 +20,7 @@ UBuffDebuffComponent::UBuffDebuffComponent()
 // Called when the game starts
 void UBuffDebuffComponent::BeginPlay()
 {
+	
 	AjonCharacter = Cast<AJon>( GetOwner());
 	JonPlayerController = Cast<AJonPlayerController>( AjonCharacter->GetController());
 	Super::BeginPlay();
@@ -35,23 +37,22 @@ void UBuffDebuffComponent::BuffSelectionFunc(int BuffNumber)
 {
 	AjonCharacter->BuffSelection = BuffNumber;
 	SelectedBuff = BuffNumber;
-	GEngine->AddOnScreenDebugMessage(1,10.f,FColor::Black,FString::Printf(TEXT("halfheight Value: %f"), SelectedBuff));
 }
 
-void UBuffDebuffComponent::ActivateBuff(int BuffNumber)
+void UBuffDebuffComponent::ActivateBuff()
 {
-	if (FMath::RandBool())
+	if (true)
 	{
 		switch (SelectedBuff)
 		{
 		case 0:
-			Invicibility();
+			MovementSpeedBuff();
 			break;
 		case 1:
-			DashResets();
+			DamageBuff();
 			break;
 		case 2:
-			ExplosiveBullet();
+			TakeDamageReductionBuff();
 			break;
 		}
 	}
@@ -82,19 +83,42 @@ void UBuffDebuffComponent::DeactivateBuff()
 }
 
 
-void UBuffDebuffComponent::Invicibility()
+void UBuffDebuffComponent::MovementSpeedBuff()
 {
-	JonPlayerController->BuffsWidgets->Highlight(FText::FromString("Buff: invencibilidade"), FColor::Green);
+	JonPlayerController->BuffsWidgets->Highlight(FText::FromString("Buff: mais speed"), FColor::Green);
+	AjonCharacter->GetCharacterMovement()->MaxWalkSpeed *= 1.25f;
+
+	GetWorld()->GetTimerManager().SetTimer(DeactivatebuffTimerHandle, [this]()
+	{
+	
+		AjonCharacter->GetCharacterMovement()->MaxWalkSpeed = AjonCharacter->MaxWalkSpeed;
+
+	}, 10.0f, false);
 }
 
-void UBuffDebuffComponent::DashResets()
+void UBuffDebuffComponent::DamageBuff()
 {
-	JonPlayerController->BuffsWidgets->Highlight(FText::FromString("Buff: Dash Reset"),FColor::Green);
+	JonPlayerController->BuffsWidgets->Highlight(FText::FromString("Buff: mais damage"),FColor::Green);
+	AjonCharacter->BaseDamage *= 1.25f;
+
+	GetWorld()->GetTimerManager().SetTimer(DeactivatebuffTimerHandle, [this]()
+	{
+		AjonCharacter->BaseDamage = 2.f;
+		
+	}, 10.0f, false);
 }
 
-void UBuffDebuffComponent::ExplosiveBullet()
+void UBuffDebuffComponent::TakeDamageReductionBuff()
 {
 	JonPlayerController->BuffsWidgets->Highlight(FText::FromString("Buff: Bala Explosiva"),FColor::Green);
+	AjonCharacter->Shield = 0.75f;
+
+	GetWorld()->GetTimerManager().SetTimer(DeactivatebuffTimerHandle, [this]()
+	{
+		AjonCharacter->Shield = 1.f;
+		
+	}, 10.0f, false);
+
 }
 void UBuffDebuffComponent::InvicibilityPlus()
 {
@@ -118,8 +142,8 @@ void UBuffDebuffComponent::PlayerTakesMoreDmg()
 
 void UBuffDebuffComponent::MinusMovementSpeed()
 {
-	JonPlayerController->BuffsWidgets->Highlight(FText::FromString("Debuff: O jogador tem menos moviment speed"),FColor::Red);
-	//GetCharacterMovement()->MaxWalkSpeed /= 1.5; 
+	JonPlayerController->BuffsWidgets->Highlight(FText::FromString("Debuff: O jogadoy2r tem menos moviment speed"),FColor::Red);
+	AjonCharacter->GetCharacterMovement()->MaxWalkSpeed *= 1.25f;
 	//GetWorldTimerManager().SetTimer(ResetCooldownTimerHandle,this, &AJon::DeactivateBuff, 10.f, false);
 }
 

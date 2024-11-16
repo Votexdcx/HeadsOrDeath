@@ -28,16 +28,18 @@ public:
 
 
 	//Functions
-	UFUNCTION(Blueprintable)
+	UFUNCTION(Blueprintable,BlueprintCallable)
 	void BuffSelectionFunc(int BuffNumber);
-	UFUNCTION(Blueprintable)
-	void ActivateBuff(int BuffNumber);
-	UFUNCTION(Blueprintable)
+	UFUNCTION(Blueprintable,BlueprintCallable)
+	void ActivateBuff();
+	UFUNCTION(Blueprintable,BlueprintCallable)
 	void DeactivateBuff();
 
 	//Variables
 	int SelectedBuff;
 
+private:
+	FTimerHandle DeactivatebuffTimerHandle;
 
 
 	//Buff Functions
@@ -46,9 +48,9 @@ public:
 	//Buff effecs function
 
 	//buffs
-	void Invicibility();
-	void DashResets();
-	void ExplosiveBullet();
+	void MovementSpeedBuff();
+	void DamageBuff();
+	void TakeDamageReductionBuff();
 	
 	//buffs +
 
