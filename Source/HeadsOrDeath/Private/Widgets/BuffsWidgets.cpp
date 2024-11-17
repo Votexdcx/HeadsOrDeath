@@ -10,7 +10,7 @@ void UBuffsWidgets::Highlight(FText BuffName, FColor BuffOrDebuffColor)
 {
 	BuffTextBlock->SetText(BuffName);
 	BuffTextBlock->SetColorAndOpacity(BuffOrDebuffColor);
-	GetWorld()->GetTimerManager().SetTimer(ResetTextBox,this,&UBuffsWidgets::ResetTextbox, 10.f, false);
+	GetWorld()->GetTimerManager().SetTimer(ResetTextBox,this,&UBuffsWidgets::ResetTextbox, 2.f, false);
 }
 
 void UBuffsWidgets::ResetTextbox()
