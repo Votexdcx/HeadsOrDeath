@@ -37,6 +37,7 @@ public:
 
 	//Variables
 	int SelectedBuff;
+	bool HasBuff = false;
 
 private:
 	FTimerHandle DeactivatebuffTimerHandle;
