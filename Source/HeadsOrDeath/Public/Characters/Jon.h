@@ -21,12 +21,11 @@ public:
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 	bool CanSlide;
 
-<<<<<<< Updated upstream
+
 	UPROPERTY(EditAnywhere)
-=======
+
 	class AJonPlayerController* AJonPlayerControllerVar;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
->>>>>>> Stashed changes
 	class UCameraComponent *CameraReal;
 
 protected:
@@ -91,6 +90,27 @@ public:
 	//Buff Functions
 public:
 	FVector CameraDirection(EAxis::Type Direction);
+
+
+
+	//Attack
+
+public:
+	
+	UPROPERTY(BlueprintReadOnly)
+	float BaseDamage = 2.f;
+
+	UPROPERTY(BlueprintReadOnly)
+	float Shield = 1;
+	
+	UPROPERTY(BlueprintReadWrite)
+	float PlayerHealth = 100.f;
+
+	UPROPERTY(BlueprintReadOnly)
+	float PistolDamage = 15.f;
+	
+	UPROPERTY(BlueprintReadWrite)
+	float Points = 15.f;
 
 	
 };
