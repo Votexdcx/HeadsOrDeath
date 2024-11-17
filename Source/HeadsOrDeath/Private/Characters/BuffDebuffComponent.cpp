@@ -41,7 +41,8 @@ void UBuffDebuffComponent::BuffSelectionFunc(int BuffNumber)
 
 void UBuffDebuffComponent::ActivateBuff()
 {
-	if (true)
+	SelectedBuff = FMath::RandRange(0,2);
+	if (HasBuff == false)
 	{
 		switch (SelectedBuff)
 		{
@@ -85,38 +86,40 @@ void UBuffDebuffComponent::DeactivateBuff()
 
 void UBuffDebuffComponent::MovementSpeedBuff()
 {
+	HasBuff = true;
 	JonPlayerController->BuffsWidgets->Highlight(FText::FromString("Buff: mais speed"), FColor::Green);
 	AjonCharacter->GetCharacterMovement()->MaxWalkSpeed *= 1.25f;
 
 	GetWorld()->GetTimerManager().SetTimer(DeactivatebuffTimerHandle, [this]()
 	{
-	
+		HasBuff = false;
 		AjonCharacter->GetCharacterMovement()->MaxWalkSpeed = AjonCharacter->MaxWalkSpeed;
-
 	}, 10.0f, false);
 }
 
 void UBuffDebuffComponent::DamageBuff()
 {
+	HasBuff = true;
 	JonPlayerController->BuffsWidgets->Highlight(FText::FromString("Buff: mais damage"),FColor::Green);
 	AjonCharacter->BaseDamage *= 1.25f;
 
 	GetWorld()->GetTimerManager().SetTimer(DeactivatebuffTimerHandle, [this]()
 	{
+		HasBuff = false;
 		AjonCharacter->BaseDamage = 2.f;
-		
 	}, 10.0f, false);
 }
 
 void UBuffDebuffComponent::TakeDamageReductionBuff()
 {
+	HasBuff = true;
 	JonPlayerController->BuffsWidgets->Highlight(FText::FromString("Buff: Bala Explosiva"),FColor::Green);
 	AjonCharacter->Shield = 0.75f;
 
 	GetWorld()->GetTimerManager().SetTimer(DeactivatebuffTimerHandle, [this]()
 	{
+		HasBuff = false;
 		AjonCharacter->Shield = 1.f;
-		
 	}, 10.0f, false);
 
 }
