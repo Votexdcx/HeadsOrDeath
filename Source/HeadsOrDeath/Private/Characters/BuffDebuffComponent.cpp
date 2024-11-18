@@ -193,7 +193,7 @@ void UBuffDebuffComponent::ResetDamageGiven()
 {
 	GEngine->AddOnScreenDebugMessage(1,10.f,FColor::Black,FString::Printf(TEXT("ResetDamageGiven")));
 	HasDeBuff = false;
-	AjonCharacter->BaseDamage = 2.f;
+	AjonCharacter->BaseDamage = 10.f;
 }
 
 
