@@ -98,7 +98,7 @@ public:
 public:
 	
 	UPROPERTY(BlueprintReadOnly)
-	float BaseDamage = 2.f;
+	float BaseDamage = 10.f;
 
 	UPROPERTY(BlueprintReadOnly)
 	float Shield = 1;
@@ -110,7 +110,7 @@ public:
 	float PistolDamage = 15.f;
 	
 	UPROPERTY(BlueprintReadWrite)
-	float Points = 15.f;
+	int Points = 0.f;
 
 	
 };

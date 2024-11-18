@@ -33,14 +33,18 @@ public:
 	UFUNCTION(Blueprintable,BlueprintCallable)
 	void ActivateBuff();
 	UFUNCTION(Blueprintable,BlueprintCallable)
-	void DeactivateBuff();
+	void ActivateDeBuff();
 
 	//Variables
 	int SelectedBuff;
 	bool HasBuff = false;
+	bool HasDeBuff = false;
+	float BuffTimer = 10.f;
+	float DebuffTimer = 10.f;
 
 private:
 	FTimerHandle DeactivatebuffTimerHandle;
+	FTimerHandle DeactivateDebuffTimerHandle;
 
 
 	//Buff Functions
@@ -54,21 +58,19 @@ private:
 	void TakeDamageReductionBuff();
 	
 	//buffs +
-
-	void InvicibilityPlus();
-	void DashResettimer();
-	void ExplosiveBullet3();
-
-
+	
 	//Debuffs
 	void PlayerTakesMoreDmg();
 	void MinusMovementSpeed();
 	void LessDamageGiven();
+
+	//resetbuffDebuff
+
+	void ResetPlayerDmg();
+	void ResetMovementSpeed();
+	void ResetDamageGiven();
 	
 	//Debuffs+
-
-	void PlayerTakesEvenMoreDmg();
-	void GetsStun();
-	void LessDamageGivenPLUS();
+	
 		
 };

@@ -41,6 +41,14 @@ void UBuffDebuffComponent::BuffSelectionFunc(int BuffNumber)
 
 void UBuffDebuffComponent::ActivateBuff()
 {
+	if (GetWorld()->GetTimerManager().IsTimerActive(DeactivateDebuffTimerHandle))
+	{
+		GEngine->AddOnScreenDebugMessage(1,10.f,FColor::Black,FString::Printf(TEXT("DeactivateDebuffTimerHandle")));
+		ResetPlayerDmg();
+		ResetMovementSpeed();
+		ResetDamageGiven();
+		GetWorld()->GetTimerManager().ClearTimer(DeactivateDebuffTimerHandle);
+	}
 	SelectedBuff = FMath::RandRange(0,2);
 	if (HasBuff == false)
 	{
@@ -57,9 +65,21 @@ void UBuffDebuffComponent::ActivateBuff()
 			break;
 		}
 	}
-	else
+}
+
+void UBuffDebuffComponent::ActivateDeBuff()
+{
+	if (GetWorld()->GetTimerManager().IsTimerActive(DeactivatebuffTimerHandle))
 	{
-		switch (SelectedBuff)
+		GEngine->AddOnScreenDebugMessage(1,10.f,FColor::Black,FString::Printf(TEXT("DeactivatebuffTimerHandle")));
+		ResetPlayerDmg();
+		ResetMovementSpeed();
+		ResetDamageGiven();
+		GetWorld()->GetTimerManager().ClearTimer(DeactivatebuffTimerHandle);
+	}
+	if (HasDeBuff == false)
+	{
+		switch (FMath::RandRange(0,2))
 		{
 		case 0:
 			PlayerTakesMoreDmg();
@@ -74,15 +94,6 @@ void UBuffDebuffComponent::ActivateBuff()
 	}
 }
 
-void UBuffDebuffComponent::DeactivateBuff()
-{
-	/*  void AJon::DeactivateBuff()
-	{
-	GetCharacterMovement()->MaxWalkSpeed = DefaultMaxspeed;
-	}
-	*/
-}
-
 
 void UBuffDebuffComponent::MovementSpeedBuff()
 {
@@ -93,8 +104,8 @@ void UBuffDebuffComponent::MovementSpeedBuff()
 	GetWorld()->GetTimerManager().SetTimer(DeactivatebuffTimerHandle, [this]()
 	{
 		HasBuff = false;
-		AjonCharacter->GetCharacterMovement()->MaxWalkSpeed = AjonCharacter->MaxWalkSpeed;
-	}, 10.0f, false);
+		ResetMovementSpeed();
+	}, BuffTimer, false);
 }
 
 void UBuffDebuffComponent::DamageBuff()
@@ -106,69 +117,83 @@ void UBuffDebuffComponent::DamageBuff()
 	GetWorld()->GetTimerManager().SetTimer(DeactivatebuffTimerHandle, [this]()
 	{
 		HasBuff = false;
-		AjonCharacter->BaseDamage = 2.f;
-	}, 10.0f, false);
+		ResetDamageGiven();
+	},BuffTimer, false);
 }
 
 void UBuffDebuffComponent::TakeDamageReductionBuff()
 {
 	HasBuff = true;
-	JonPlayerController->BuffsWidgets->Highlight(FText::FromString("Buff: Bala Explosiva"),FColor::Green);
+	JonPlayerController->BuffsWidgets->Highlight(FText::FromString("Buff: menos damage recebido"),FColor::Green);
 	AjonCharacter->Shield = 0.75f;
 
 	GetWorld()->GetTimerManager().SetTimer(DeactivatebuffTimerHandle, [this]()
 	{
 		HasBuff = false;
-		AjonCharacter->Shield = 1.f;
-	}, 10.0f, false);
-
-}
-void UBuffDebuffComponent::InvicibilityPlus()
-{
-	JonPlayerController->BuffsWidgets->Highlight(FText::FromString("Buff+: InvicibilityPlus"), FColor::Green);
-}
-
-void UBuffDebuffComponent::DashResettimer()
-{
-	JonPlayerController->BuffsWidgets->Highlight(FText::FromString("Buff+: Reset Dash Timer com cada kill"), FColor::Green);
-}
-
-void UBuffDebuffComponent::ExplosiveBullet3()
-{
-	JonPlayerController->BuffsWidgets->Highlight(FText::FromString("3 Balas Explosivas"), FColor::Green);
+		ResetPlayerDmg();
+	}, BuffTimer, false);
 }
 
 void UBuffDebuffComponent::PlayerTakesMoreDmg()
 {
-	JonPlayerController->BuffsWidgets->Highlight(FText::FromString("Debuff: Jogador esta a levar mais 25% de dano"), FColor::Red);
+	HasDeBuff = true;
+	JonPlayerController->BuffsWidgets->Highlight(FText::FromString("DeBuff: Player takes more damage"),FColor::Red);
+	AjonCharacter->Shield = 0.75f;
+
+	GetWorld()->GetTimerManager().SetTimer(DeactivateDebuffTimerHandle, [this]()
+	{
+		HasDeBuff = false;
+		ResetPlayerDmg();
+	}, DebuffTimer, false);
 }
 
 void UBuffDebuffComponent::MinusMovementSpeed()
 {
-	JonPlayerController->BuffsWidgets->Highlight(FText::FromString("Debuff: O jogadoy2r tem menos moviment speed"),FColor::Red);
-	AjonCharacter->GetCharacterMovement()->MaxWalkSpeed *= 1.25f;
-	//GetWorldTimerManager().SetTimer(ResetCooldownTimerHandle,this, &AJon::DeactivateBuff, 10.f, false);
+	HasDeBuff = true;
+	JonPlayerController->BuffsWidgets->Highlight(FText::FromString("DeBuff: menos movement speed"),FColor::Red);
+	AjonCharacter->GetCharacterMovement()->MaxWalkSpeed *= 0.5f;
+	
+	GetWorld()->GetTimerManager().SetTimer(DeactivateDebuffTimerHandle, [this]()
+	{
+		HasDeBuff = false;
+		ResetMovementSpeed();
+	}, DebuffTimer, false);
+
 }
 
 void UBuffDebuffComponent::LessDamageGiven()
 {
-	JonPlayerController->BuffsWidgets->Highlight(FText::FromString("Debuff: O jogador esta a dar menos dano aos enimigos"),FColor::Red);
+	HasDeBuff = true;
+	JonPlayerController->BuffsWidgets->Highlight(FText::FromString("DeBuff: player da menos dano"),FColor::Red);
+	AjonCharacter->BaseDamage *= 0.5f;
+
+	GetWorld()->GetTimerManager().SetTimer(DeactivateDebuffTimerHandle, [this]()
+	{
+		HasDeBuff = false;
+		ResetDamageGiven();
+	}, DebuffTimer, false);
 
 }
 
-void UBuffDebuffComponent::PlayerTakesEvenMoreDmg()
+void UBuffDebuffComponent::ResetPlayerDmg()
 {
-	JonPlayerController->BuffsWidgets->Highlight(FText::FromString("Debuff+: o jogador esta a levar 50% mais dano"),FColor::Red);
-
+	GEngine->AddOnScreenDebugMessage(1,10.f,FColor::Black,FString::Printf(TEXT("ResetPlayerDmg")));
+	HasDeBuff = false;
+	AjonCharacter->Shield = 1.f;
 }
 
-void UBuffDebuffComponent::GetsStun()
+void UBuffDebuffComponent::ResetMovementSpeed()
 {
-	JonPlayerController->BuffsWidgets->Highlight(FText::FromString("Debuff:+: o jogador esta stunned"),FColor::Red);
-
+	GEngine->AddOnScreenDebugMessage(1,10.f,FColor::Black,FString::Printf(TEXT("ResetMovementSpeed")));
+	HasDeBuff = false;
+	AjonCharacter->GetCharacterMovement()->MaxWalkSpeed = AjonCharacter->MaxWalkSpeed;
 }
 
-void UBuffDebuffComponent::LessDamageGivenPLUS()
+void UBuffDebuffComponent::ResetDamageGiven()
 {
-	JonPlayerController->BuffsWidgets->Highlight(FText::FromString("Debuff+: o jogador da menos 50% dano aos enimigos"),FColor::Red);
+	GEngine->AddOnScreenDebugMessage(1,10.f,FColor::Black,FString::Printf(TEXT("ResetDamageGiven")));
+	HasDeBuff = false;
+	AjonCharacter->BaseDamage = 2.f;
 }
+
+
