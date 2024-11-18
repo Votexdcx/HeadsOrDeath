@@ -39,11 +39,12 @@ public:
 	int SelectedBuff;
 	bool HasBuff = false;
 	bool HasDeBuff = false;
-	int BuffTimer = 10.f;
-	int DebuffTimer = 10.f;
+	float BuffTimer = 10.f;
+	float DebuffTimer = 10.f;
 
 private:
 	FTimerHandle DeactivatebuffTimerHandle;
+	FTimerHandle DeactivateDebuffTimerHandle;
 
 
 	//Buff Functions
@@ -62,6 +63,12 @@ private:
 	void PlayerTakesMoreDmg();
 	void MinusMovementSpeed();
 	void LessDamageGiven();
+
+	//resetbuffDebuff
+
+	void ResetPlayerDmg();
+	void ResetMovementSpeed();
+	void ResetDamageGiven();
 	
 	//Debuffs+
 	
