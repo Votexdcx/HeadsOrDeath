@@ -80,17 +80,6 @@ void AJon::Slide(float Value)
 {
 	if (Value == 0)
 	{
-		//UnCrouch();
-		/*if (CanSlide == true)
-		{
-			GEngine->AddOnScreenDebugMessage(1,10.f,FColor::Black,FString::Printf(TEXT("Slide value = 0 canslide = true")));
-			GetWorldTimerManager().SetTimer(SlideTimeHandler,this,&AJon::EndSlide,0.5f,false);
-			//CanSlide = false;
-			return;
-		}
-		*/
-		//CanSlide = false;
-		//UnCrouch();
 		return;
 	}
 	if(GetCharacterMovement()->IsFalling() == true)
