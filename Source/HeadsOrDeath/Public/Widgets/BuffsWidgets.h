@@ -17,10 +17,12 @@ class HEADSORDEATH_API UBuffsWidgets : public UUserWidget
 	
 	UPROPERTY(meta = (BindWidget))
 	class UTextBlock* BuffTextBlock;
+	
 	FTimerHandle ResetTextBox;
 
 public:
 	void Highlight(FText BuffName, FColor BuffOrDebuffColor);
 	void ResetTextbox();
+	
 	
 };

@@ -39,7 +39,10 @@ void UBuffDebuffComponent::BuffSelectionFunc(int BuffNumber)
 	SelectedBuff = BuffNumber;
 }
 
-void UBuffDebuffComponent::ActivateBuff()
+///////////ACTIVATE BUFFS////////////
+///////////ACTIVATE BUFFS////////////
+///////////ACTIVATE BUFFS////////////
+int UBuffDebuffComponent::ActivateBuff()
 {
 	if (GetWorld()->GetTimerManager().IsTimerActive(DeactivateDebuffTimerHandle))
 	{
@@ -49,25 +52,32 @@ void UBuffDebuffComponent::ActivateBuff()
 		ResetDamageGiven();
 		GetWorld()->GetTimerManager().ClearTimer(DeactivateDebuffTimerHandle);
 	}
-	SelectedBuff = FMath::RandRange(0,2);
 	if (HasBuff == false)
 	{
+		SelectedBuff = FMath::RandRange(0,2);
 		switch (SelectedBuff)
 		{
 		case 0:
 			MovementSpeedBuff();
+			return 0;
 			break;
 		case 1:
 			DamageBuff();
+			return 1;
 			break;
 		case 2:
 			TakeDamageReductionBuff();
+			return 2;
 			break;
 		}
 	}
+	return SelectedBuff;
 }
 
-void UBuffDebuffComponent::ActivateDeBuff()
+///////////ACTIVATE DEBUFFS////////////
+///////////ACTIVATE DEBUFFS////////////
+///////////ACTIVATE DEBUFFS////////////
+int UBuffDebuffComponent::ActivateDeBuff()
 {
 	if (GetWorld()->GetTimerManager().IsTimerActive(DeactivatebuffTimerHandle))
 	{
@@ -83,18 +93,61 @@ void UBuffDebuffComponent::ActivateDeBuff()
 		{
 		case 0:
 			PlayerTakesMoreDmg();
+			SelectedDeBuff = 0;
+			return SelectedDeBuff;
 			break;
 		case 1:
 			MinusMovementSpeed();
+			SelectedDeBuff = 1;
+			return SelectedDeBuff;
 			break;
 		case 2:
 			LessDamageGiven();
+			SelectedDeBuff = 2;
+			return SelectedDeBuff;
 			break;
 		}
 	}
+	return SelectedBuff;
 }
 
+int UBuffDebuffComponent::ActivateBuffPlus()
+{
+	if (GetWorld()->GetTimerManager().IsTimerActive(DeactivatebuffTimerHandle) || GetWorld()->GetTimerManager().IsTimerActive(DeactivateDebuffTimerHandle) || GetWorld()->GetTimerManager().IsTimerActive(DeactivateBuffPlusTimerHandle))
+	{
+		GEngine->AddOnScreenDebugMessage(1,10.f,FColor::Black,FString::Printf(TEXT("DeactivatebuffTimerHandle")));
+		ResetPlayerDmg();
+		ResetMovementSpeed();
+		ResetDamageGiven();
+		GetWorld()->GetTimerManager().ClearTimer(DeactivatebuffTimerHandle);
+		GetWorld()->GetTimerManager().ClearTimer(DeactivateDebuffTimerHandle);
+		GetWorld()->GetTimerManager().ClearTimer(DeactivateBuffPlusTimerHandle);
+	}
 
+	switch (FMath::RandRange(0,2))
+	{
+	case 0:
+		TakeDamageReductionBuffPlus();
+		SelectedBuffPlus = 0;
+		return SelectedBuffPlus;
+		break;
+	case 1:
+		MovementSpeedBuffPlus();
+		SelectedBuffPlus = 1;
+		return SelectedBuffPlus;
+		break;
+	case 2:
+		DamageBuffPlus();
+		SelectedBuffPlus = 2;
+		return SelectedBuffPlus;
+		break;
+	}
+	return 3;
+}
+
+///////////BUFFS////////////
+///////////BUFFS////////////
+///////////BUFFS////////////
 void UBuffDebuffComponent::MovementSpeedBuff()
 {
 	HasBuff = true;
@@ -134,6 +187,51 @@ void UBuffDebuffComponent::TakeDamageReductionBuff()
 	}, BuffTimer, false);
 }
 
+///////////BUFFS PLUS////////////
+///////////BUFFS PLUS////////////
+///////////BUFFS PLUS////////////
+void UBuffDebuffComponent::MovementSpeedBuffPlus()
+{
+	HasBuffPlus = true;
+	JonPlayerController->BuffsWidgets->Highlight(FText::FromString("BuffPlus: mais speed"), FColor::Green);
+	AjonCharacter->GetCharacterMovement()->MaxWalkSpeed *= 2.f;
+
+	GetWorld()->GetTimerManager().SetTimer(DeactivateBuffPlusTimerHandle, [this]()
+	{
+		HasBuff = false;
+		ResetMovementSpeed();
+	}, BuffTimer, false);
+}
+
+void UBuffDebuffComponent::DamageBuffPlus()
+{
+	HasBuff = true;
+	JonPlayerController->BuffsWidgets->Highlight(FText::FromString("Buff Plus: mais damage"),FColor::Green);
+	AjonCharacter->BaseDamage *= 1.5f;
+
+	GetWorld()->GetTimerManager().SetTimer(DeactivateBuffPlusTimerHandle, [this]()
+	{
+		HasBuff = false;
+		ResetDamageGiven();
+	},BuffTimer, false);
+}
+
+void UBuffDebuffComponent::TakeDamageReductionBuffPlus()
+{
+	HasBuff = true;
+	JonPlayerController->BuffsWidgets->Highlight(FText::FromString("Buff Plus: menos damage recebido"),FColor::Green);
+	AjonCharacter->Shield = 0.5f;
+
+	GetWorld()->GetTimerManager().SetTimer(DeactivateBuffPlusTimerHandle, [this]()
+	{
+		HasBuff = false;
+		ResetPlayerDmg();
+	}, BuffTimer, false);
+}
+
+///////////DEBUFFS////////////
+///////////DEBUFFS////////////
+///////////DEBUFFS////////////
 void UBuffDebuffComponent::PlayerTakesMoreDmg()
 {
 	HasDeBuff = true;
@@ -175,6 +273,9 @@ void UBuffDebuffComponent::LessDamageGiven()
 
 }
 
+///////////RESET STATS////////////
+///////////RESET STATS////////////
+///////////RESET STATS////////////
 void UBuffDebuffComponent::ResetPlayerDmg()
 {
 	GEngine->AddOnScreenDebugMessage(1,10.f,FColor::Black,FString::Printf(TEXT("ResetPlayerDmg")));

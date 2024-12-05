@@ -125,7 +125,6 @@ void AJon::Sliding()
 {
 	FRotator CameraYaw = FRotator(0,Controller->GetControlRotation().Yaw,0);
 	FVector Forward  = FRotationMatrix(CameraYaw).GetUnitAxis(EAxis::X);
-	Forward -= 
 	GetCharacterMovement()->GroundFriction = 0.2f;
 	GetCharacterMovement()->AddImpulse(Forward * SlideSpeed,true);
 	//LaunchCharacter(Forward * SlideSpeed, true, true);

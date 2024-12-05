@@ -31,20 +31,29 @@ public:
 	UFUNCTION(Blueprintable,BlueprintCallable)
 	void BuffSelectionFunc(int BuffNumber);
 	UFUNCTION(Blueprintable,BlueprintCallable)
-	void ActivateBuff();
+	int ActivateBuff();
 	UFUNCTION(Blueprintable,BlueprintCallable)
-	void ActivateDeBuff();
+	int ActivateDeBuff();
+	UFUNCTION(Blueprintable,BlueprintCallable)
+	int ActivateBuffPlus();
 
 	//Variables
 	int SelectedBuff;
+	int SelectedDeBuff;
+	int SelectedBuffPlus;
+	
+	bool HasBuffPlus = false;
 	bool HasBuff = false;
 	bool HasDeBuff = false;
+	
 	float BuffTimer = 10.f;
 	float DebuffTimer = 10.f;
 
 private:
 	FTimerHandle DeactivatebuffTimerHandle;
 	FTimerHandle DeactivateDebuffTimerHandle;
+	FTimerHandle DeactivateBuffPlusTimerHandle;
+
 
 
 	//Buff Functions
@@ -58,6 +67,10 @@ private:
 	void TakeDamageReductionBuff();
 	
 	//buffs +
+
+	void MovementSpeedBuffPlus();
+	void DamageBuffPlus();
+	void TakeDamageReductionBuffPlus();
 	
 	//Debuffs
 	void PlayerTakesMoreDmg();
@@ -72,5 +85,6 @@ private:
 	
 	//Debuffs+
 	
-		
+
+	class UImage* BuffDebuffImage;
 };
