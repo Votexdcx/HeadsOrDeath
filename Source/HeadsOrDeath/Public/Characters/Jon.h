@@ -90,8 +90,7 @@ public:
 	//Buff Functions
 public:
 	FVector CameraDirection(EAxis::Type Direction);
-
-
+	float InitialGravity;
 
 	//Attack
 

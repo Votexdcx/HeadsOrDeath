@@ -27,7 +27,7 @@ AJon::AJon()
 	//SlideVariables
 
 	MaxWalkSpeed = GetCharacterMovement()->MaxWalkSpeed;
-	SlideSpeed = 2000.f;
+	SlideSpeed = 1500.f;
 	CanSlide = false;
 }
 
@@ -40,10 +40,21 @@ void AJon::BeginPlay()
 	//GEngine->AddOnScreenDebugMessage(1,10.f,FColor::Black,FString::Printf(TEXT("halfheight Value: %f"), GetMesh()->GetComponentScale().Z));
 
 	BuffDebuffComponent = FindComponentByClass<UBuffDebuffComponent>();
+	InitialGravity = GetCharacterMovement()->GravityScale;
 }
 
 void AJon::Tick(float DeltaTime)
 {
+	if (CanSlide == true && GetCharacterMovement()->IsFalling())
+	{
+		GEngine->AddOnScreenDebugMessage(1,10.f,FColor::Black,FString::Printf(TEXT("Masstimes")));
+		//GetCharacterMovement()->GravityScale = InitialGravity*4;
+	}
+	else 
+	{
+		GEngine->AddOnScreenDebugMessage(1,10.f,FColor::Black,FString::Printf(TEXT("Massdevided")));
+		//GetCharacterMovement()->GravityScale = InitialGravity/4;
+	}
 	Super::Tick(DeltaTime);
 }
 void AJon::Movefoward(float Value)
@@ -78,6 +89,7 @@ void AJon::Lookaround(float Value)
 
 void AJon::Slide(float Value)
 {
+	//NEEDS POLISH  Raycast to surface to know what surface and normal we are on and then change our direction based on that for stairs and ramps for more professional slide and to know slide forward in stairs and ramps and instead slide downstairs or upstairs and slide down and up  
 	if (Value == 0)
 	{
 		return;
@@ -101,12 +113,11 @@ void AJon::Jump()
 {
 	Super::Jump();
 	GEngine->AddOnScreenDebugMessage(1,10.f,FColor::Black,FString::Printf(TEXT("jumpjon2")));
-	
 }
 
 void AJon::BeginSlide()
 {
-	Crouch();
+	GetCapsuleComponent()->SetCapsuleHalfHeight(GetCapsuleComponent()->GetScaledCapsuleHalfHeight()/3);
 	GetWorldTimerManager().SetTimer(SlideTimeHandler,this,&AJon::Sliding,0.01f,false);
 }
 
@@ -115,7 +126,8 @@ void AJon::Sliding()
 	FRotator CameraYaw = FRotator(0,Controller->GetControlRotation().Yaw,0);
 	FVector Forward  = FRotationMatrix(CameraYaw).GetUnitAxis(EAxis::X);
 	GetCharacterMovement()->GroundFriction = 0.2f;
-	LaunchCharacter(Forward * SlideSpeed, true, true);
+	GetCharacterMovement()->AddImpulse(Forward * SlideSpeed,true);
+	//LaunchCharacter(Forward * SlideSpeed, true, true);
 	UE_LOG(LogTemp, Warning, TEXT("Timer"));
 	GetWorldTimerManager().SetTimer(SlideTimeHandler,this,&AJon::EndSlide,0.5f,false);
 
@@ -124,7 +136,8 @@ void AJon::Sliding()
 void AJon::EndSlide()
 {
 	GetCharacterMovement()->GroundFriction = 2.f;
-	UnCrouch();
+	GetCapsuleComponent()->SetCapsuleHalfHeight(GetCapsuleComponent()->GetScaledCapsuleHalfHeight()*3);
+	//UnCrouch();
 	GetWorldTimerManager().SetTimer(SlideTimeHandler,this,&AJon::SlideCooldown,0.5f,false);
 
 	//CanSlide = false;
@@ -156,4 +169,5 @@ FVector AJon::CameraDirection(EAxis::Type Direction)
 	FVector CameraDirection  = FRotationMatrix(CameraYaw).GetUnitAxis(Direction);
 	return CameraDirection;
 }
+
 
