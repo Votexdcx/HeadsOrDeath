@@ -151,8 +151,7 @@ int UBuffDebuffComponent::ActivateBuffPlus()
 void UBuffDebuffComponent::MovementSpeedBuff()
 {
 	HasBuff = true;
-	JonPlayerController->BuffsWidgets->Highlight(FText::FromString("Buff: mais speed"), FColor::Green);
-	AjonCharacter->GetCharacterMovement()->MaxWalkSpeed *= 1.25f;
+	AjonCharacter->GetCharacterMovement()->MaxWalkSpeed *= 1.5f;
 
 	GetWorld()->GetTimerManager().SetTimer(DeactivatebuffTimerHandle, [this]()
 	{
@@ -164,8 +163,7 @@ void UBuffDebuffComponent::MovementSpeedBuff()
 void UBuffDebuffComponent::DamageBuff()
 {
 	HasBuff = true;
-	JonPlayerController->BuffsWidgets->Highlight(FText::FromString("Buff: mais damage"),FColor::Green);
-	AjonCharacter->BaseDamage *= 1.25f;
+	AjonCharacter->BaseDamage *= 1.5f;
 
 	GetWorld()->GetTimerManager().SetTimer(DeactivatebuffTimerHandle, [this]()
 	{
@@ -177,8 +175,7 @@ void UBuffDebuffComponent::DamageBuff()
 void UBuffDebuffComponent::TakeDamageReductionBuff()
 {
 	HasBuff = true;
-	JonPlayerController->BuffsWidgets->Highlight(FText::FromString("Buff: menos damage recebido"),FColor::Green);
-	AjonCharacter->Shield = 0.75f;
+	AjonCharacter->Shield = 0.5f;
 
 	GetWorld()->GetTimerManager().SetTimer(DeactivatebuffTimerHandle, [this]()
 	{
@@ -193,7 +190,6 @@ void UBuffDebuffComponent::TakeDamageReductionBuff()
 void UBuffDebuffComponent::MovementSpeedBuffPlus()
 {
 	HasBuffPlus = true;
-	JonPlayerController->BuffsWidgets->Highlight(FText::FromString("BuffPlus: mais speed"), FColor::Green);
 	AjonCharacter->GetCharacterMovement()->MaxWalkSpeed *= 2.f;
 
 	GetWorld()->GetTimerManager().SetTimer(DeactivateBuffPlusTimerHandle, [this]()
@@ -206,8 +202,7 @@ void UBuffDebuffComponent::MovementSpeedBuffPlus()
 void UBuffDebuffComponent::DamageBuffPlus()
 {
 	HasBuff = true;
-	JonPlayerController->BuffsWidgets->Highlight(FText::FromString("Buff Plus: mais damage"),FColor::Green);
-	AjonCharacter->BaseDamage *= 1.5f;
+	AjonCharacter->BaseDamage *= 2.0f;
 
 	GetWorld()->GetTimerManager().SetTimer(DeactivateBuffPlusTimerHandle, [this]()
 	{
@@ -219,7 +214,6 @@ void UBuffDebuffComponent::DamageBuffPlus()
 void UBuffDebuffComponent::TakeDamageReductionBuffPlus()
 {
 	HasBuff = true;
-	JonPlayerController->BuffsWidgets->Highlight(FText::FromString("Buff Plus: menos damage recebido"),FColor::Green);
 	AjonCharacter->Shield = 0.5f;
 
 	GetWorld()->GetTimerManager().SetTimer(DeactivateBuffPlusTimerHandle, [this]()
@@ -235,8 +229,7 @@ void UBuffDebuffComponent::TakeDamageReductionBuffPlus()
 void UBuffDebuffComponent::PlayerTakesMoreDmg()
 {
 	HasDeBuff = true;
-	JonPlayerController->BuffsWidgets->Highlight(FText::FromString("DeBuff: Player takes more damage"),FColor::Red);
-	AjonCharacter->Shield = 0.75f;
+	AjonCharacter->Shield = 1.5f;
 
 	GetWorld()->GetTimerManager().SetTimer(DeactivateDebuffTimerHandle, [this]()
 	{
@@ -248,7 +241,6 @@ void UBuffDebuffComponent::PlayerTakesMoreDmg()
 void UBuffDebuffComponent::MinusMovementSpeed()
 {
 	HasDeBuff = true;
-	JonPlayerController->BuffsWidgets->Highlight(FText::FromString("DeBuff: menos movement speed"),FColor::Red);
 	AjonCharacter->GetCharacterMovement()->MaxWalkSpeed *= 0.5f;
 	
 	GetWorld()->GetTimerManager().SetTimer(DeactivateDebuffTimerHandle, [this]()
@@ -262,7 +254,6 @@ void UBuffDebuffComponent::MinusMovementSpeed()
 void UBuffDebuffComponent::LessDamageGiven()
 {
 	HasDeBuff = true;
-	JonPlayerController->BuffsWidgets->Highlight(FText::FromString("DeBuff: player da menos dano"),FColor::Red);
 	AjonCharacter->BaseDamage *= 0.5f;
 
 	GetWorld()->GetTimerManager().SetTimer(DeactivateDebuffTimerHandle, [this]()
