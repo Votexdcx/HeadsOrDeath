@@ -36,6 +36,10 @@ void AJonPlayerController::Buff1(float Value)
 	{
 		return;
 	}
+	if (UBuffDebuffComponentInstance == nullptr)
+	{
+		return;
+	}
 	UBuffDebuffComponentInstance->BuffSelectionFunc(0);
 }
 
@@ -46,6 +50,10 @@ void AJonPlayerController::Buff2(float Value)
 		return;
 	}
 	if (Jon == nullptr)
+	{
+		return;
+	}
+	if (UBuffDebuffComponentInstance == nullptr)
 	{
 		return;
 	}
@@ -62,12 +70,24 @@ void AJonPlayerController::Buff3(float Value)
 	{
 		return;
 	}
+	if (UBuffDebuffComponentInstance == nullptr)
+    	{
+    		return;
+    	}
 	UBuffDebuffComponentInstance->BuffSelectionFunc(2);
 }
 
 void AJonPlayerController::InputActionActivateBuff()
 {
 	CanUseCoin = false;
+	if (UBuffDebuffComponentInstance == nullptr)
+	{
+		return;
+	}
+	if (UBuffDebuffComponentInstance == nullptr)
+	{
+		return;
+	}
 	UBuffDebuffComponentInstance->ActivateBuff();
 	//GetWorldTimerManager().SetTimer(CinTimerHandle,this,&AJonPlayerController::CoinReset,CoinCoolDownTimer,false);
 }
