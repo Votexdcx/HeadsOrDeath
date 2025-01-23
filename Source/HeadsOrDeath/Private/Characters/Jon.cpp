@@ -62,7 +62,7 @@ void AJon::Tick(float DeltaTime)
 	if (FireRate < 0.f)
 	{
 		CanFire = true;
-		FireRate = 0.5f;
+		FireRate = 0.3f;
 	}
 	Super::Tick(DeltaTime);
 }

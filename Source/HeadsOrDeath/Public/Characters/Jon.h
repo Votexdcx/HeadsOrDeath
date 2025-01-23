@@ -112,7 +112,7 @@ public:
 	int Points = 0.f;
 	
 	UPROPERTY(BlueprintReadWrite)
-	float FireRate = 0.5f; 
+	float FireRate = 0.3f; 
 	
 	UPROPERTY(BlueprintReadWrite)
 	bool CanFire = true;
