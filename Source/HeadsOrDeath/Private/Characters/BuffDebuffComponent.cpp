@@ -35,6 +35,10 @@ void UBuffDebuffComponent::TickComponent(float DeltaTime, ELevelTick TickType, F
 
 void UBuffDebuffComponent::BuffSelectionFunc(int BuffNumber)
 {
+	if (AjonCharacter == nullptr)
+	{
+		return;
+	}
 	AjonCharacter->BuffSelection = BuffNumber;
 	SelectedBuff = BuffNumber;
 }
@@ -151,6 +155,10 @@ int UBuffDebuffComponent::ActivateBuffPlus()
 void UBuffDebuffComponent::MovementSpeedBuff()
 {
 	HasBuff = true;
+	if (AjonCharacter == nullptr)
+	{
+		return;
+	}
 	AjonCharacter->GetCharacterMovement()->MaxWalkSpeed *= 1.5f;
 
 	GetWorld()->GetTimerManager().SetTimer(DeactivatebuffTimerHandle, [this]()
@@ -163,6 +171,10 @@ void UBuffDebuffComponent::MovementSpeedBuff()
 void UBuffDebuffComponent::DamageBuff()
 {
 	HasBuff = true;
+	if (AjonCharacter == nullptr)
+    	{
+    		return;
+    	}
 	AjonCharacter->BaseDamage *= 1.5f;
 
 	GetWorld()->GetTimerManager().SetTimer(DeactivatebuffTimerHandle, [this]()
@@ -175,6 +187,10 @@ void UBuffDebuffComponent::DamageBuff()
 void UBuffDebuffComponent::TakeDamageReductionBuff()
 {
 	HasBuff = true;
+	if (AjonCharacter == nullptr)
+    	{
+    		return;
+    	}
 	AjonCharacter->Shield = 0.5f;
 
 	GetWorld()->GetTimerManager().SetTimer(DeactivatebuffTimerHandle, [this]()
@@ -190,6 +206,10 @@ void UBuffDebuffComponent::TakeDamageReductionBuff()
 void UBuffDebuffComponent::MovementSpeedBuffPlus()
 {
 	HasBuffPlus = true;
+	if (AjonCharacter == nullptr)
+	{
+		return;
+	}
 	AjonCharacter->GetCharacterMovement()->MaxWalkSpeed *= 2.f;
 
 	GetWorld()->GetTimerManager().SetTimer(DeactivateBuffPlusTimerHandle, [this]()
@@ -202,6 +222,10 @@ void UBuffDebuffComponent::MovementSpeedBuffPlus()
 void UBuffDebuffComponent::DamageBuffPlus()
 {
 	HasBuff = true;
+	if (AjonCharacter == nullptr)
+	{
+		return;
+	}
 	AjonCharacter->BaseDamage *= 2.0f;
 
 	GetWorld()->GetTimerManager().SetTimer(DeactivateBuffPlusTimerHandle, [this]()
@@ -214,6 +238,10 @@ void UBuffDebuffComponent::DamageBuffPlus()
 void UBuffDebuffComponent::TakeDamageReductionBuffPlus()
 {
 	HasBuff = true;
+	if (AjonCharacter == nullptr)
+	{
+		return;
+	}
 	AjonCharacter->Shield = 0.5f;
 
 	GetWorld()->GetTimerManager().SetTimer(DeactivateBuffPlusTimerHandle, [this]()
@@ -229,6 +257,10 @@ void UBuffDebuffComponent::TakeDamageReductionBuffPlus()
 void UBuffDebuffComponent::PlayerTakesMoreDmg()
 {
 	HasDeBuff = true;
+	if (AjonCharacter == nullptr)
+	{
+		return;
+	}
 	AjonCharacter->Shield = 1.5f;
 
 	GetWorld()->GetTimerManager().SetTimer(DeactivateDebuffTimerHandle, [this]()
@@ -241,6 +273,10 @@ void UBuffDebuffComponent::PlayerTakesMoreDmg()
 void UBuffDebuffComponent::MinusMovementSpeed()
 {
 	HasDeBuff = true;
+	if (AjonCharacter == nullptr)
+	{
+		return;
+	}
 	AjonCharacter->GetCharacterMovement()->MaxWalkSpeed *= 0.5f;
 	
 	GetWorld()->GetTimerManager().SetTimer(DeactivateDebuffTimerHandle, [this]()
@@ -254,6 +290,10 @@ void UBuffDebuffComponent::MinusMovementSpeed()
 void UBuffDebuffComponent::LessDamageGiven()
 {
 	HasDeBuff = true;
+	if (AjonCharacter == nullptr)
+    	{
+    		return;
+    	}
 	AjonCharacter->BaseDamage *= 0.5f;
 
 	GetWorld()->GetTimerManager().SetTimer(DeactivateDebuffTimerHandle, [this]()
@@ -271,6 +311,10 @@ void UBuffDebuffComponent::ResetPlayerDmg()
 {
 	GEngine->AddOnScreenDebugMessage(1,10.f,FColor::Black,FString::Printf(TEXT("ResetPlayerDmg")));
 	HasDeBuff = false;
+	if (AjonCharacter == nullptr)
+    	{
+    		return;
+    	}
 	AjonCharacter->Shield = 1.f;
 }
 
@@ -278,6 +322,10 @@ void UBuffDebuffComponent::ResetMovementSpeed()
 {
 	GEngine->AddOnScreenDebugMessage(1,10.f,FColor::Black,FString::Printf(TEXT("ResetMovementSpeed")));
 	HasDeBuff = false;
+	if (AjonCharacter == nullptr)
+	{
+		return;
+	}
 	AjonCharacter->GetCharacterMovement()->MaxWalkSpeed = AjonCharacter->MaxWalkSpeed;
 }
 
@@ -285,6 +333,10 @@ void UBuffDebuffComponent::ResetDamageGiven()
 {
 	GEngine->AddOnScreenDebugMessage(1,10.f,FColor::Black,FString::Printf(TEXT("ResetDamageGiven")));
 	HasDeBuff = false;
+	if (AjonCharacter == nullptr)
+	{
+		return;
+	}
 	AjonCharacter->BaseDamage = 10.f;
 }
 
