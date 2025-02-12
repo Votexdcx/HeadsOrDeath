@@ -38,7 +38,7 @@ void AJon::BeginPlay()
 	Super::BeginPlay();
 	//GEngine->AddOnScreenDebugMessage(1,10.f,FColor::Black,FString::Printf(TEXT("halfheight Value: %f"), CapsuleComponentHalfHeight));
 	//GEngine->AddOnScreenDebugMessage(1,10.f,FColor::Black,FString::Printf(TEXT("halfheight Value: %f"), GetMesh()->GetComponentScale().Z));
-
+	NoiseEmitter = this->GetPawnNoiseEmitterComponent();
 	BuffDebuffComponent = FindComponentByClass<UBuffDebuffComponent>();
 	InitialGravity = GetCharacterMovement()->GravityScale;
 }
@@ -55,6 +55,15 @@ void AJon::Tick(float DeltaTime)
 		GEngine->AddOnScreenDebugMessage(1,10.f,FColor::Black,FString::Printf(TEXT("Massdevided")));
 		//GetCharacterMovement()->GravityScale = InitialGravity/4;
 	}
+	if (CanFire == false)
+	{
+		FireRate -= DeltaTime;
+	}
+	if (FireRate < 0.f)
+	{
+		CanFire = true;
+		FireRate = 0.3f;
+	}
 	Super::Tick(DeltaTime);
 }
 void AJon::Movefoward(float Value)
@@ -64,6 +73,7 @@ void AJon::Movefoward(float Value)
 		FRotator CameraYaw = FRotator(0,Controller->GetControlRotation().Yaw,0);
 		FVector Forward  = FRotationMatrix(CameraYaw).GetUnitAxis(EAxis::X);
 		AddMovementInput(Forward, Value);
+		MakeNoise(50, this,GetActorLocation());
 	}
 }
 
@@ -74,6 +84,7 @@ void AJon::Moveside(float Value)
 		FRotator CameraYaw = FRotator(0,Controller->GetControlRotation().Yaw,0);
 		FVector Right  = FRotationMatrix(CameraYaw).GetUnitAxis(EAxis::Y);
 		AddMovementInput(Right, Value);
+		MakeNoise(50, this,GetActorLocation());
 	}
 }
 
