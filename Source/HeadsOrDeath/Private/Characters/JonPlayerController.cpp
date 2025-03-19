@@ -97,6 +97,12 @@ void AJonPlayerController::CoinReset()
 	CanUseCoin = true;
 }
 
+void AJonPlayerController::Pushback()
+{
+	Jon->raycast();
+}
+
+
 void AJonPlayerController::SetupInputComponent()
 {
 	Super::SetupInputComponent();
@@ -105,6 +111,7 @@ void AJonPlayerController::SetupInputComponent()
 	InputComponent->BindAxis("Buff3", this, &AJonPlayerController::Buff3);
 	InputComponent->BindAction("TossCoin", EInputEvent::IE_Pressed, this, &AJonPlayerController::InputActionActivateBuff);
 	InputComponent->BindAction("Jump", EInputEvent::IE_Pressed, this, &AJonPlayerController::Jump);
+	InputComponent->BindAction("Jump", EInputEvent::IE_Pressed, this, &AJonPlayerController::Pushback);
 
 }
 
