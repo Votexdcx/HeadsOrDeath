@@ -206,7 +206,7 @@ void AJon::raycast()
 
 		if (bHit)
 		{
-			DrawDebugLine(GetWorld(),Start,End,FColor::Emerald,10.f);
+			DrawDebugLine(GetWorld(),Start,End,FColor::Emerald,true);
 			UE_LOG(LogTemp, Warning, TEXT("Hit: %s"), *HitResult.GetActor()->GetName());
 		}
 	}
