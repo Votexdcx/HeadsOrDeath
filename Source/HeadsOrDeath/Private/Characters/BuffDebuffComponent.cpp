@@ -24,6 +24,7 @@ void UBuffDebuffComponent::BeginPlay()
 	AjonCharacter = Cast<AJon>( GetOwner());
 	JonPlayerController = Cast<AJonPlayerController>( AjonCharacter->GetController());
 	Super::BeginPlay();
+	PlayerHealth = &AjonCharacter->PlayerHealth;
 }
 
 
@@ -48,6 +49,13 @@ void UBuffDebuffComponent::BuffSelectionFunc(int BuffNumber)
 ///////////ACTIVATE BUFFS////////////
 int UBuffDebuffComponent::ActivateBuff()
 {
+	if(true)
+	{
+		if (PlayerHealth != nullptr)
+		{
+			*PlayerHealth -= 1 * GetWorld()->GetDeltaSeconds();
+		}
+	}
 	if (GetWorld()->GetTimerManager().IsTimerActive(DeactivateDebuffTimerHandle))
 	{
 		GEngine->AddOnScreenDebugMessage(1,10.f,FColor::Black,FString::Printf(TEXT("DeactivateDebuffTimerHandle")));
@@ -338,6 +346,11 @@ void UBuffDebuffComponent::ResetDamageGiven()
 		return;
 	}
 	AjonCharacter->BaseDamage = 10.f;
+}
+
+void UBuffDebuffComponent::PushEnemies()
+{
+	CanPush = true;
 }
 
 

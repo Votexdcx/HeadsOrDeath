@@ -34,6 +34,7 @@ protected:
 	void Buff3(float Value);
 	void InputActionActivateBuff();
 	void CoinReset();
+	void Pushback();
 
 
 	//Variables

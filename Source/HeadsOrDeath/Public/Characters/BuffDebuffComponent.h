@@ -49,6 +49,9 @@ public:
 	float BuffTimer = 10.f;
 	float DebuffTimer = 10.f;
 
+	UPROPERTY(BlueprintReadOnly)
+	bool CanPush = true;
+
 private:
 	FTimerHandle DeactivatebuffTimerHandle;
 	FTimerHandle DeactivateDebuffTimerHandle;
@@ -83,8 +86,13 @@ private:
 	void ResetMovementSpeed();
 	void ResetDamageGiven();
 	
-	//Debuffs+
-	
+	//DebuffsOmega
 
+	void FloorIsLava();
+	
+	void PushEnemies();
+	
+	float* PlayerHealth;
+	
 	class UImage* BuffDebuffImage;
 };
