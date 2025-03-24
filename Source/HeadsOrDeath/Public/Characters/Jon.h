@@ -89,11 +89,13 @@ public:
 	
 	//Buff Functions
 public:
+	
 	FVector CameraDirection(EAxis::Type Direction);
 	float InitialGravity;
 
 	//Attack
 
+	void raycast();
 public:
 	
 	UPROPERTY(BlueprintReadOnly)
@@ -110,6 +112,17 @@ public:
 	
 	UPROPERTY(BlueprintReadWrite)
 	int Points = 0.f;
+	
+	UPROPERTY(BlueprintReadWrite)
+	float FireRate = 0.3f; 
+	
+	UPROPERTY(BlueprintReadWrite)
+	bool CanFire = true;
 
 	
+	UPawnNoiseEmitterComponent* NoiseEmitter;
 };
+
+
+
+
