@@ -34,7 +34,6 @@ AJon::AJon()
 // Called when the game starts or when spawned
 void AJon::BeginPlay()
 {
-	
 	Super::BeginPlay();
 	//GEngine->AddOnScreenDebugMessage(1,10.f,FColor::Black,FString::Printf(TEXT("halfheight Value: %f"), CapsuleComponentHalfHeight));
 	//GEngine->AddOnScreenDebugMessage(1,10.f,FColor::Black,FString::Printf(TEXT("halfheight Value: %f"), GetMesh()->GetComponentScale().Z));
@@ -43,8 +42,11 @@ void AJon::BeginPlay()
 	InitialGravity = GetCharacterMovement()->GravityScale;
 }
 
+
 void AJon::Tick(float DeltaTime)
 {
+	
+	//PlayerHealth -= 1 * GetWorld()->GetDeltaSeconds();
 	if (CanSlide == true && GetCharacterMovement()->IsFalling())
 	{
 		GEngine->AddOnScreenDebugMessage(1,10.f,FColor::Black,FString::Printf(TEXT("Masstimes")));
@@ -109,7 +111,6 @@ void AJon::Slide(float Value)
 	{
 		return;
 	}
-	
 	if (CanSlide == false)
 	{
 		GEngine->AddOnScreenDebugMessage(1,10.f,FColor::Black,FString::Printf(TEXT("slide true: %f")));
@@ -117,7 +118,6 @@ void AJon::Slide(float Value)
 		GetWorldTimerManager().SetTimer(SlideTimeHandler,this,&AJon::SlideCooldown,1.f,false);
 		BeginSlide();
 	}
-
 }
 
 void AJon::Jump()
@@ -181,4 +181,35 @@ FVector AJon::CameraDirection(EAxis::Type Direction)
 	return CameraDirection;
 }
 
+void AJon::raycast()
+{
+	FVector Start = GetActorLocation();
+	float Radius = 500.0f;
+	int NumTraces = 10; // Number of traces for coverage
 
+	for (int i = 0; i < NumTraces; i++)
+	{
+		FVector RandomOffset = FMath::VRand() * Radius;
+		FVector End = Start + RandomOffset;
+
+		FHitResult HitResult;
+		FCollisionQueryParams QueryParams;
+		QueryParams.AddIgnoredActor(this);
+
+		bool bHit = GetWorld()->LineTraceSingleByChannel(
+			HitResult,
+			Start,
+			End,
+			ECC_Visibility,
+			QueryParams
+		);
+
+		if (bHit)
+		{
+			DrawDebugLine(GetWorld(),Start,End,FColor::Emerald,true);
+			UE_LOG(LogTemp, Warning, TEXT("Hit: %s"), *HitResult.GetActor()->GetName());
+		}
+	}
+}
+
+ 
