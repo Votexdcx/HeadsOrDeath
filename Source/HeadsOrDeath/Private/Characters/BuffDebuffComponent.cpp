@@ -53,7 +53,7 @@ int UBuffDebuffComponent::ActivateBuff()
 	{
 		if (PlayerHealth != nullptr)
 		{
-			*PlayerHealth -= 1 * GetWorld()->GetDeltaSeconds();
+			//*PlayerHealth -= 1 * GetWorld()->GetDeltaSeconds();
 		}
 	}
 	if (GetWorld()->GetTimerManager().IsTimerActive(DeactivateDebuffTimerHandle))

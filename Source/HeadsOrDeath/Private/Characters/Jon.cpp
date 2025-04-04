@@ -46,7 +46,7 @@ void AJon::BeginPlay()
 void AJon::Tick(float DeltaTime)
 {
 	
-	PlayerHealth -= 1 * GetWorld()->GetDeltaSeconds();
+	//PlayerHealth -= 1 * GetWorld()->GetDeltaSeconds();
 	if (CanSlide == true && GetCharacterMovement()->IsFalling())
 	{
 		GEngine->AddOnScreenDebugMessage(1,10.f,FColor::Black,FString::Printf(TEXT("Masstimes")));

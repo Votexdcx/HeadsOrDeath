@@ -88,7 +88,7 @@ private:
 	
 	//DebuffsOmega
 
-	void FloorIsLava();
+	//void FloorIsLava();
 	
 	void PushEnemies();
 	
