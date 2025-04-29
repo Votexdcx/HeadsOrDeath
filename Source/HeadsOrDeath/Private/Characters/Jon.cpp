@@ -210,13 +210,13 @@ void AJon::raycast()
 
 		if (bHit)
 		{
-			DrawDebugLine(GetWorld(),Start,End,FColor::Emerald,true);
+			//DrawDebugLine(GetWorld(),Start,End,FColor::Emerald,true);
 			UE_LOG(LogTemp, Warning, TEXT("Hit: %s"), *HitResult.GetActor()->GetName());
 			ACharacter* Enemy = Cast<ACharacter>(HitResult.GetActor());
 			if (Enemy)
 			{
 				UE_LOG(LogTemp, Warning, TEXT("Hit Actor:  "), *Enemy->GetName());
-				Enemy->LaunchCharacter((HitResult.TraceEnd-HitResult.TraceStart) *2.5f,false,false);
+				Enemy->LaunchCharacter((HitResult.TraceEnd-HitResult.TraceStart) *10.f,false,false);
 				return;
 			}
 		}
