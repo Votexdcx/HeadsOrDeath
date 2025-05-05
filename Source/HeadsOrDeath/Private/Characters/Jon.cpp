@@ -183,15 +183,19 @@ FVector AJon::CameraDirection(EAxis::Type Direction)
 
 void AJon::raycast()
 {
-	FVector Start = GetActorLocation();
-	float Radius = 500.0f;
+	FString text = GetMesh()->GetChildComponent(0)->GetName();	
+	FVector Start = CameraReal->GetComponentLocation();
+	
+	float Radius = -50.0f;
 	int NumTraces = 10; // Number of traces for coverage
-
+	UE_LOG(LogTemp, Warning, TEXT("Vector  %s "), *text);
+	UE_LOG(LogTemp, Warning, TEXT("Vector  %s "), *Start.ToString());
 	for (int i = 0; i < NumTraces; i++)
 	{
 		FVector RandomOffset = FMath::VRand() * Radius;
-		FVector End = Start + RandomOffset;
-
+		//FVector End = Start + RandomOffset;
+		FVector End = Start + CameraReal->GetForwardVector() * 1000 + RandomOffset;
+	
 		FHitResult HitResult;
 		FCollisionQueryParams QueryParams;
 		QueryParams.AddIgnoredActor(this);
@@ -206,8 +210,15 @@ void AJon::raycast()
 
 		if (bHit)
 		{
-			DrawDebugLine(GetWorld(),Start,End,FColor::Emerald,true);
+			//DrawDebugLine(GetWorld(),Start,End,FColor::Emerald,true);
 			UE_LOG(LogTemp, Warning, TEXT("Hit: %s"), *HitResult.GetActor()->GetName());
+			ACharacter* Enemy = Cast<ACharacter>(HitResult.GetActor());
+			if (Enemy)
+			{
+				UE_LOG(LogTemp, Warning, TEXT("Hit Actor:  "), *Enemy->GetName());
+				Enemy->LaunchCharacter((HitResult.TraceEnd-HitResult.TraceStart) *10.f,false,false);
+				return;
+			}
 		}
 	}
 }
