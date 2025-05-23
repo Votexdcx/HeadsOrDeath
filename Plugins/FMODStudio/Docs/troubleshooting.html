@@ -67,7 +67,40 @@ However any such changes aren't going to change the underlying Studio project, s
 <div class="highlight language-text"><pre><span></span>&quot;Plugin &#39;FMODStudio&#39; failed to load because module &#39;FMODStudio&#39; could not be found.
 </pre></div>
 
-<p>The only way to work around this is to add a blank code class to the project and build the resulting solution before packaging again.<br />
+<p>The only way to work around this is to add a C++ class to the project and build the resulting solution before packaging again.</p>
+<p>Add an empty class from the <code>File</code> menu in <code>4.27</code> or <code>Tools</code> menu in <code>5+</code>.</p>
+<table>
+<thead>
+<tr>
+<th>4.27</th>
+<th>5+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><img alt="New CPP Class 4" src="images/add-new-cpp-class-4.png" /></td>
+<td><img alt="New CPP Class 5" src="images/add-new-cpp-class-5.png" /></td>
+</tr>
+</tbody>
+</table>
+<p>Select any option.</p>
+<table>
+<thead>
+<tr>
+<th>4.27</th>
+<th>5+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><img alt="Add CPP Class 4" src="images/add-cpp-class-4.png" /></td>
+<td><img alt="Add CPP Class" src="images/add-cpp-class-5.png" /></td>
+</tr>
+</tbody>
+</table>
+<p>Wait for UE to finish setting up the <code>.sln</code> and <code>Source</code> files.<br />
+<img alt="New SLN File" src="images/new-sln-file.png" /></p>
+<p>Attempt to repackage the project.<br />
 This is mentioned by Epic on their forum: <a href="https://answers.unrealengine.com/questions/72781/unable-to-run-community-plugins-when-packaged.html">Unable to run plugins when packaged</a>.</p>
 <h2 id="audio-not-muted-when-game-loses-focus"><a href="#audio-not-muted-when-game-loses-focus">9.8 Audio not muted when game loses focus</a></h2>
 <p>FMOD will not automatically mute its audio output when your game loses focus due to the user hitting alt-tab or switching to a different app. If you would like to mute FMOD audio when your game loses focus, make an <a href="https://docs.unrealengine.com/4.27/en-US/API/Runtime/Slate/Framework/Application/FSlateApplication/OnApplicationAct-_2/">OnApplicationActivationStateChanged</a> callback and write code to mute the FMOD master bus. Here is an example :</p>
@@ -127,7 +160,7 @@ void AMyActor::ShutdownFunction()
 <h2 id="cannot-find-events-or-buses-with-strings"><a href="#cannot-find-events-or-buses-with-strings">9.10 Cannot Find Events or Buses with Strings</a></h2>
 <p>This usually happens because the strings bank file has not been loaded. The strings bank is denoted with the file type <code>.strings.bank</code>, and includes all the metadata required to look up events, buses, snapshots, and VCAs by their paths during runtime. In the event that a path lookup is performed while the strings bank isn't loaded, the error <a href="https://fmod.com/docs/2.03/api/core-api-common.html#fmod_err_event_notfound">FMOD_ERR_EVENT_NOTFOUND</a> will occur, which will either be logged to the Unreal Console, or directly returned from the Studio API function being called.</p></div>
 
-<p class="manual-footer">Unreal Integration 2.03.06 (2025-02-04). &copy; 2025 Firelight Technologies Pty Ltd.</p>
+<p class="manual-footer">Unreal Integration 2.03.07 (2025-04-01). &copy; 2025 Firelight Technologies Pty Ltd.</p>
 </body>
 </html>
 
