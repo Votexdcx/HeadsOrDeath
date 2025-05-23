@@ -215,7 +215,7 @@ void AJon::raycast()
 			ACharacter* Enemy = Cast<ACharacter>(HitResult.GetActor());
 			if (Enemy)
 			{
-				UE_LOG(LogTemp, Warning, TEXT("Hit Actor:  "), *Enemy->GetName());
+				UE_LOG(LogTemp, Warning, TEXT("Hit Actor: ENEMYASJDBASJDGK  "), *Enemy->GetName());
 				Enemy->LaunchCharacter((HitResult.TraceEnd-HitResult.TraceStart) *10.f,false,false);
 				return;
 			}

@@ -85,12 +85,15 @@ private:
 	void ResetPlayerDmg();
 	void ResetMovementSpeed();
 	void ResetDamageGiven();
+	void ResetLowGravity();
 	
-	//DebuffsOmega
+	//Debuffs/buffsOmega
 
 	//void FloorIsLava();
 	
 	void PushEnemies();
+
+	void LowGravity();
 	
 	float* PlayerHealth;
 	

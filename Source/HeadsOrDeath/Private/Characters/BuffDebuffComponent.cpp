@@ -153,8 +153,14 @@ int UBuffDebuffComponent::ActivateBuffPlus()
 		SelectedBuffPlus = 2;
 		return SelectedBuffPlus;
 		break;
+	case 3:
+		LowGravity();
+		SelectedBuffPlus = 2;
+		return SelectedBuffPlus;
+		break;
 	}
-	return 3;
+	
+	return 4;
 }
 
 ///////////BUFFS////////////
@@ -259,6 +265,29 @@ void UBuffDebuffComponent::TakeDamageReductionBuffPlus()
 	}, BuffTimer, false);
 }
 
+void UBuffDebuffComponent::LowGravity()
+{
+	HasBuff = true;
+	if (AjonCharacter == nullptr)
+	{
+		return;
+	}
+
+	AjonCharacter->GetCharacterMovement()->GravityScale /= 0.3f;
+    AjonCharacter->GetCharacterMovement()->AirControl = 1.f;
+	
+	GetWorld()->GetTimerManager().SetTimer(DeactivateBuffPlusTimerHandle, [this]()
+	{
+		HasBuff = false;
+		ResetLowGravity();
+	},BuffTimer, false);
+}
+
+void UBuffDebuffComponent::PushEnemies()
+{
+	CanPush = true;
+}
+
 ///////////DEBUFFS////////////
 ///////////DEBUFFS////////////
 ///////////DEBUFFS////////////
@@ -348,9 +377,18 @@ void UBuffDebuffComponent::ResetDamageGiven()
 	AjonCharacter->BaseDamage = 10.f;
 }
 
-void UBuffDebuffComponent::PushEnemies()
+void UBuffDebuffComponent::ResetLowGravity()
 {
-	CanPush = true;
+	GEngine->AddOnScreenDebugMessage(1,10.f,FColor::Black,FString::Printf(TEXT("ResetDamageGiven")));
+	HasDeBuff = false;
+	if (AjonCharacter == nullptr)
+	{
+		return;
+	}
+	AjonCharacter->GetCharacterMovement()->GravityScale *= 3.f;
+	AjonCharacter->GetCharacterMovement()->AirControl = 0.5f;
 }
+
+
 
 
