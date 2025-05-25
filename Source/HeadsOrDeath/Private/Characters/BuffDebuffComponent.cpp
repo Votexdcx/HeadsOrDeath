@@ -13,7 +13,6 @@
 UBuffDebuffComponent::UBuffDebuffComponent()
 {
 	PrimaryComponentTick.bCanEverTick = true;
-
 }
 
 
@@ -91,6 +90,10 @@ int UBuffDebuffComponent::ActivateBuff()
 ///////////ACTIVATE DEBUFFS////////////
 int UBuffDebuffComponent::ActivateDeBuff()
 {
+	if (HasBuffPlus == true)
+	{
+		return 10;
+	}
 	if (GetWorld()->GetTimerManager().IsTimerActive(DeactivatebuffTimerHandle))
 	{
 		GEngine->AddOnScreenDebugMessage(1,10.f,FColor::Black,FString::Printf(TEXT("DeactivatebuffTimerHandle")));
@@ -136,7 +139,7 @@ int UBuffDebuffComponent::ActivateBuffPlus()
 		GetWorld()->GetTimerManager().ClearTimer(DeactivateBuffPlusTimerHandle);
 	}
 
-	switch (FMath::RandRange(0,2))
+	switch (FMath::RandRange(4,4))
 	{
 	case 0:
 		TakeDamageReductionBuffPlus();
@@ -155,7 +158,19 @@ int UBuffDebuffComponent::ActivateBuffPlus()
 		break;
 	case 3:
 		LowGravity();
-		SelectedBuffPlus = 2;
+		SelectedBuffPlus = 3;
+		return SelectedBuffPlus;
+		break;
+		
+	case 4:
+		EnemyExplodes();
+		SelectedBuffPlus = 4;
+		return SelectedBuffPlus;
+		break;
+		
+	case 5:
+		PushEnemies();
+		SelectedBuffPlus = 5;
 		return SelectedBuffPlus;
 		break;
 	}
@@ -220,6 +235,7 @@ void UBuffDebuffComponent::TakeDamageReductionBuff()
 void UBuffDebuffComponent::MovementSpeedBuffPlus()
 {
 	HasBuffPlus = true;
+	HasBuff = true;
 	if (AjonCharacter == nullptr)
 	{
 		return;
@@ -228,6 +244,7 @@ void UBuffDebuffComponent::MovementSpeedBuffPlus()
 
 	GetWorld()->GetTimerManager().SetTimer(DeactivateBuffPlusTimerHandle, [this]()
 	{
+		HasBuffPlus = false;
 		HasBuff = false;
 		ResetMovementSpeed();
 	}, BuffTimer, false);
@@ -235,6 +252,7 @@ void UBuffDebuffComponent::MovementSpeedBuffPlus()
 
 void UBuffDebuffComponent::DamageBuffPlus()
 {
+	HasBuffPlus = true;
 	HasBuff = true;
 	if (AjonCharacter == nullptr)
 	{
@@ -244,6 +262,7 @@ void UBuffDebuffComponent::DamageBuffPlus()
 
 	GetWorld()->GetTimerManager().SetTimer(DeactivateBuffPlusTimerHandle, [this]()
 	{
+		HasBuffPlus = false;
 		HasBuff = false;
 		ResetDamageGiven();
 	},BuffTimer, false);
@@ -251,6 +270,7 @@ void UBuffDebuffComponent::DamageBuffPlus()
 
 void UBuffDebuffComponent::TakeDamageReductionBuffPlus()
 {
+	HasBuffPlus = true;
 	HasBuff = true;
 	if (AjonCharacter == nullptr)
 	{
@@ -260,6 +280,7 @@ void UBuffDebuffComponent::TakeDamageReductionBuffPlus()
 
 	GetWorld()->GetTimerManager().SetTimer(DeactivateBuffPlusTimerHandle, [this]()
 	{
+		HasBuffPlus = false;
 		HasBuff = false;
 		ResetPlayerDmg();
 	}, BuffTimer, false);
@@ -267,25 +288,60 @@ void UBuffDebuffComponent::TakeDamageReductionBuffPlus()
 
 void UBuffDebuffComponent::LowGravity()
 {
+	HasBuffPlus = true;
 	HasBuff = true;
 	if (AjonCharacter == nullptr)
 	{
 		return;
 	}
 
-	AjonCharacter->GetCharacterMovement()->GravityScale /= 0.3f;
+	AjonCharacter->GetCharacterMovement()->GravityScale = 0.3f;
     AjonCharacter->GetCharacterMovement()->AirControl = 1.f;
 	
 	GetWorld()->GetTimerManager().SetTimer(DeactivateBuffPlusTimerHandle, [this]()
 	{
+		HasBuffPlus = false;
 		HasBuff = false;
 		ResetLowGravity();
 	},BuffTimer, false);
 }
 
+void UBuffDebuffComponent::EnemyExplodes()
+{
+	HasBuffPlus = true;
+	HasBuff = true;
+	if (AjonCharacter == nullptr)
+	{
+		return;
+	}
+
+	IsEnemyExplodable = true;
+	
+	GetWorld()->GetTimerManager().SetTimer(DeactivateBuffPlusTimerHandle, [this]()
+	{
+		HasBuffPlus = false;
+		HasBuff = false;
+		ResetEnemyExplodes();
+	},BuffTimer, false);
+	
+}
+
 void UBuffDebuffComponent::PushEnemies()
 {
+	HasBuffPlus = true;
+	HasBuff = true;
+	if (AjonCharacter == nullptr)
+	{
+		return;
+	}
 	CanPush = true;
+	GetWorld()->GetTimerManager().SetTimer(DeactivateBuffPlusTimerHandle, [this]()
+	{
+		HasBuffPlus = false;
+		HasBuff = false;
+		ResetCanPush();
+	},BuffTimer, false);
+	
 }
 
 ///////////DEBUFFS////////////
@@ -385,8 +441,32 @@ void UBuffDebuffComponent::ResetLowGravity()
 	{
 		return;
 	}
-	AjonCharacter->GetCharacterMovement()->GravityScale *= 3.f;
+	AjonCharacter->GetCharacterMovement()->GravityScale = 1.f;
 	AjonCharacter->GetCharacterMovement()->AirControl = 0.5f;
+}
+
+void UBuffDebuffComponent::ResetEnemyExplodes()
+{
+	
+	GEngine->AddOnScreenDebugMessage(1,10.f,FColor::Black,FString::Printf(TEXT("Resetenemyexplodes")));
+	HasDeBuff = false;
+	if (AjonCharacter == nullptr)
+	{
+		return;
+	}
+	IsEnemyExplodable = false;
+
+}
+
+void UBuffDebuffComponent::ResetCanPush()
+{
+	GEngine->AddOnScreenDebugMessage(1,10.f,FColor::Black,FString::Printf(TEXT("Resetenemyexplodes")));
+	HasDeBuff = false;
+	if (AjonCharacter == nullptr)
+	{
+		return;
+	}
+	CanPush = false;
 }
 
 
