@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.03.00">
+	<object class="AudioFile" id="{9814a876-e9cd-479f-98c0-917af6d2e7ec}">
+		<property name="assetPath">
+			<value>270366__foolboymedia__dramatic-scroller.wav</value>
+		</property>
+		<property name="isStreaming">
+			<value>true</value>
+		</property>
+		<property name="frequencyInKHz">
+			<value>44.0999985</value>
+		</property>
+		<property name="channelCount">
+			<value>2</value>
+		</property>
+		<property name="length">
+			<value>85.774512471655328</value>
+		</property>
+		<relationship name="masterAssetFolder">
+			<destination>{d3c2ac34-d49e-4a9b-abec-e8adda4a94ad}</destination>
+		</relationship>
+	</object>
+</objects>

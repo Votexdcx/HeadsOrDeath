@@ -11,10 +11,10 @@
 			<destination>{1fe588f8-75aa-452f-ac33-7516d85de946}</destination>
 		</relationship>
 		<relationship name="masterEffectPresetFolder">
-			<destination>{714e93e6-72b8-4813-bf24-d1be2427a427}</destination>
+			<destination>{c60fba7a-ca50-49ee-986d-c61452c19576}</destination>
 		</relationship>
 		<relationship name="masterParameterPresetFolder">
-			<destination>{1ccf59f2-6854-4fef-a4ec-77de3123f784}</destination>
+			<destination>{f502f16f-dde4-4521-be08-f5f82b939f4d}</destination>
 		</relationship>
 		<relationship name="masterBankFolder">
 			<destination>{065250e7-bf72-461c-80cc-4f6f99c04b86}</destination>
