@@ -111,16 +111,25 @@
 	<object class="MixerBusFader" id="{4272b03e-ff53-44b5-954b-255c1979eeed}" />
 	<object class="SpatialiserEffect" id="{0896128a-416e-47fc-afcb-1169ec2916f2}" />
 	<object class="SingleSound" id="{2f6e12fe-06fb-4c48-a513-1793fbc03600}">
+		<property name="startOffset">
+			<value>3.5</value>
+		</property>
 		<relationship name="audioFile">
 			<destination>{cc275c90-83c9-4eca-8f88-9adf07ccf0b6}</destination>
 		</relationship>
 	</object>
 	<object class="SingleSound" id="{27046ef7-b8ad-4404-a252-2a2a77c6bbdc}">
+		<property name="startOffset">
+			<value>6</value>
+		</property>
 		<relationship name="audioFile">
 			<destination>{74287d8d-d9da-4e0e-b25c-d387963ddf77}</destination>
 		</relationship>
 	</object>
 	<object class="SingleSound" id="{8088a7ff-8620-49a5-9324-1ff6f31679b4}">
+		<property name="startOffset">
+			<value>5</value>
+		</property>
 		<relationship name="audioFile">
 			<destination>{7ddd1a0f-81cb-496a-8d0b-f099ac779fa1}</destination>
 		</relationship>

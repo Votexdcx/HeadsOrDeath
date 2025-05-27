@@ -114,6 +114,9 @@
 	<object class="MixerBusFader" id="{d08180cf-9729-4d8d-a6c1-24f63ed410ac}" />
 	<object class="PannerEffect" id="{84102d19-3e1b-41b3-ba68-c90dae27b726}" />
 	<object class="SingleSound" id="{b18b3ea0-5fca-41ca-99fa-ba40717e008a}">
+		<property name="startOffset">
+			<value>11</value>
+		</property>
 		<relationship name="audioFile">
 			<destination>{31e8762e-b29d-4ec9-9b79-cdb2c750121e}</destination>
 		</relationship>
