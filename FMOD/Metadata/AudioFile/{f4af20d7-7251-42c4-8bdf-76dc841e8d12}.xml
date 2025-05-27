@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.03.00">
+	<object class="AudioFile" id="{f4af20d7-7251-42c4-8bdf-76dc841e8d12}">
+		<property name="assetPath">
+			<value>RENDER/HeartBeat-001.wav</value>
+		</property>
+		<property name="frequencyInKHz">
+			<value>44.0999985</value>
+		</property>
+		<property name="channelCount">
+			<value>2</value>
+		</property>
+		<property name="length">
+			<value>0.49049886621315192</value>
+		</property>
+		<relationship name="masterAssetFolder">
+			<destination>{d3c2ac34-d49e-4a9b-abec-e8adda4a94ad}</destination>
+		</relationship>
+	</object>
+</objects>
