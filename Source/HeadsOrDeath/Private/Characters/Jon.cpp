@@ -187,7 +187,7 @@ void AJon::raycast()
 {
 	if (BuffDebuffComponent->CanPush == false)
 	{
-		
+		return;
 	}
 	FString text = GetMesh()->GetChildComponent(0)->GetName();	
 	FVector Start = CameraReal->GetComponentLocation();
