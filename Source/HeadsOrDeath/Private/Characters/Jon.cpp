@@ -5,6 +5,8 @@
 #include "Characters/Jon.h"
 
 
+#include "SNegativeActionButton.h"
+#include "SWarningOrErrorBox.h"
 #include "Camera/CameraComponent.h"
 #include "Components/CapsuleComponent.h"
 #include "Characters/BuffDebuffComponent.h"
@@ -183,6 +185,10 @@ FVector AJon::CameraDirection(EAxis::Type Direction)
 
 void AJon::raycast()
 {
+	if (BuffDebuffComponent->CanPush == false)
+	{
+		
+	}
 	FString text = GetMesh()->GetChildComponent(0)->GetName();	
 	FVector Start = CameraReal->GetComponentLocation();
 	
@@ -215,8 +221,22 @@ void AJon::raycast()
 			ACharacter* Enemy = Cast<ACharacter>(HitResult.GetActor());
 			if (Enemy)
 			{
-				UE_LOG(LogTemp, Warning, TEXT("Hit Actor:  "), *Enemy->GetName());
-				Enemy->LaunchCharacter((HitResult.TraceEnd-HitResult.TraceStart) *10.f,false,false);
+				UAnimInstance* anim = Enemy->GetMesh()->GetAnimInstance();
+				if (anim != nullptr)
+				{
+					anim->Montage_Pause();
+					UE_LOG(LogTemp, Warning, TEXT("not nullptr "));
+					anim->SetRootMotionMode(ERootMotionMode::NoRootMotionExtraction);
+				}
+				
+				UE_LOG(LogTemp, Warning, TEXT("TraceStart: %s  "), *HitResult.TraceStart.ToString());
+				UE_LOG(LogTemp, Warning, TEXT("TraceEnd: %s  "), *HitResult.TraceEnd.ToString());
+				FVector launch =(HitResult.TraceEnd-HitResult.TraceStart) *10.f;
+				UE_LOG(LogTemp, Warning, TEXT("LaunchVector: %s  "), *launch.ToString() ) ;
+
+				//Enemy->LaunchCharacter((HitResult.TraceEnd-HitResult.TraceStart) *10.f,false,false);
+				Enemy->LaunchCharacter((HitResult.TraceEnd-HitResult.TraceStart) *10.f,true,true);
+				
 				return;
 			}
 		}
