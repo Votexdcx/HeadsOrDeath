@@ -80,7 +80,10 @@ void AJon::Movefoward(float Value)
 		AddMovementInput(Forward, Value);
 		MakeNoise(50, this,GetActorLocation());
 		if (FootStepsTimerHandle.IsValid() == false)
+		{if (GetCharacterMovement()->IsWalking() == false)
 		{
+			return;
+		}
 			FootSteps();
 		}
 	}
@@ -96,6 +99,10 @@ void AJon::Moveside(float Value)
 		MakeNoise(50, this,GetActorLocation());
 		if (FootStepsTimerHandle.IsValid() == false)
 		{
+			if (GetCharacterMovement()->IsWalking() == false)
+			{
+				return;
+			}
 			FootSteps();
 		}
 	}
