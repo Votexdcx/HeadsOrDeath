@@ -3,8 +3,10 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "../../../../Plugins/FMODStudio/Source/FMODStudio/Classes/FMODEvent.h"
 #include "GameFramework/Character.h"
 #include "Jon.generated.h"
+
 
 UCLASS()
 class HEADSORDEATH_API AJon : public ACharacter
@@ -119,7 +121,14 @@ public:
 	UPROPERTY(BlueprintReadWrite)
 	bool CanFire = true;
 
+	//Fmod
+	UPROPERTY(BlueprintReadWrite)
+	UFMODEvent* Footsteps;
 	
+	void FootSteps();
+
+
+	FTimerHandle  FootStepsTimerHandle;
 	UPawnNoiseEmitterComponent* NoiseEmitter;
 };
 

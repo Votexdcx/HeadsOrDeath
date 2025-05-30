@@ -139,7 +139,7 @@ int UBuffDebuffComponent::ActivateBuffPlus()
 		GetWorld()->GetTimerManager().ClearTimer(DeactivateBuffPlusTimerHandle);
 	}
 
-	switch (FMath::RandRange(4,4))
+	switch (FMath::RandRange(0,5))
 	{
 	case 0:
 		TakeDamageReductionBuffPlus();
