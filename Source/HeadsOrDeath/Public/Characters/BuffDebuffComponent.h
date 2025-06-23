@@ -90,6 +90,7 @@ private:
 	void ResetLowGravity();
 	void ResetEnemyExplodes();
 	void ResetCanPush();
+	void ResetGameSpeed();
 	
 	//Debuffs/buffsOmega
 
@@ -100,6 +101,8 @@ private:
 	void LowGravity();
 
 	void EnemyExplodes();
+
+	void SlowDownGame();
 	
 	float* PlayerHealth;
 	
