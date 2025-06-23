@@ -6,6 +6,7 @@
 #include "Characters/Jon.h"
 #include "Characters/JonPlayerController.h"
 #include "GameFramework/CharacterMovementComponent.h"
+#include "Kismet/GameplayStatics.h"
 #include "Widgets/BuffsWidgets.h"
 
 
@@ -139,7 +140,7 @@ int UBuffDebuffComponent::ActivateBuffPlus()
 		GetWorld()->GetTimerManager().ClearTimer(DeactivateBuffPlusTimerHandle);
 	}
 
-	switch (FMath::RandRange(0,5))
+	switch (FMath::RandRange(0,6))
 	{
 	case 0:
 		TakeDamageReductionBuffPlus();
@@ -173,9 +174,15 @@ int UBuffDebuffComponent::ActivateBuffPlus()
 		SelectedBuffPlus = 5;
 		return SelectedBuffPlus;
 		break;
+
+	case 6:
+		SlowDownGame();
+		SelectedBuffPlus = 6;
+		return SelectedBuffPlus;
+		break;
 	}
 	
-	return 4;
+	return 7;
 }
 
 ///////////BUFFS////////////
@@ -232,6 +239,26 @@ void UBuffDebuffComponent::TakeDamageReductionBuff()
 ///////////BUFFS PLUS////////////
 ///////////BUFFS PLUS////////////
 ///////////BUFFS PLUS////////////
+
+void UBuffDebuffComponent::SlowDownGame()
+{
+	HasBuffPlus = true;
+	HasBuff = true;
+	if (AjonCharacter == nullptr)
+	{
+		return;
+	}
+
+	UGameplayStatics::SetGlobalTimeDilation(GetWorld(),0.5f);
+	AjonCharacter->CustomTimeDilation = 2.f;
+
+	GetWorld()->GetTimerManager().SetTimer(DeactivateBuffPlusTimerHandle, [this]()
+	{
+		HasBuffPlus = false;
+		HasBuff = false;
+		ResetGameSpeed()	;
+	}, BuffTimer, false);
+}
 void UBuffDebuffComponent::MovementSpeedBuffPlus()
 {
 	HasBuffPlus = true;
@@ -468,6 +495,19 @@ void UBuffDebuffComponent::ResetCanPush()
 	}
 	CanPush = false;
 }
+
+void UBuffDebuffComponent::ResetGameSpeed()
+{
+	GEngine->AddOnScreenDebugMessage(1,10.f,FColor::Black,FString::Printf(TEXT("ResetGameSpeed")));
+	HasDeBuff = false;
+	if (AjonCharacter == nullptr)
+	{
+		return;
+	}
+	UGameplayStatics::SetGlobalTimeDilation(GetWorld(),1.f);
+	AjonCharacter->CustomTimeDilation = 1.f;
+}
+
 
 
 
