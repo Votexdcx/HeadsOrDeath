@@ -3,6 +3,7 @@
 
 #include "Characters/BuffDebuffComponent.h"
 
+#include "Camera/CameraComponent.h"
 #include "Characters/Jon.h"
 #include "Characters/JonPlayerController.h"
 #include "GameFramework/CharacterMovementComponent.h"
@@ -31,6 +32,7 @@ void UBuffDebuffComponent::BeginPlay()
 void UBuffDebuffComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
+	LessFieldOfView();
 }
 
 void UBuffDebuffComponent::BuffSelectionFunc(int BuffNumber)
@@ -326,6 +328,23 @@ void UBuffDebuffComponent::EnemyExplodes()
 	
 }
 
+void UBuffDebuffComponent::LessFieldOfView()
+{
+	HasDeBuffPlus = true;
+	HasDeBuff = true;
+	if (AjonCharacter == nullptr)
+	{
+		return;
+	}
+	AjonCharacter->CameraReal->FieldOfView = 40;
+	GetWorld()->GetTimerManager().SetTimer(DeactivateDebuffPlusTimerHandle, [this]()
+	{
+		HasDeBuffPlus = false;
+		HasDeBuff = false;
+		ResetFieldView();
+	},BuffTimer, false);
+}
+
 void UBuffDebuffComponent::PushEnemies()
 {
 	HasBuffPlus = true;
@@ -467,6 +486,16 @@ void UBuffDebuffComponent::ResetCanPush()
 		return;
 	}
 	CanPush = false;
+}
+
+void UBuffDebuffComponent::ResetFieldView()
+{
+	HasDeBuffPlus = false;
+	if (AjonCharacter == nullptr)
+	{
+		return;
+	}
+	AjonCharacter->CameraReal->FieldOfView = 90.f;
 }
 
 

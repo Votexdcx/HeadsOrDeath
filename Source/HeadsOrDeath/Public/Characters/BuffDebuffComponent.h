@@ -43,6 +43,7 @@ public:
 	int SelectedBuffPlus;
 
 	UPROPERTY(BlueprintReadOnly)
+	bool HasDeBuffPlus = false;
 	bool HasBuffPlus = false;
 	bool HasBuff = false;
 	bool HasDeBuff = false;
@@ -58,6 +59,8 @@ private:
 	FTimerHandle DeactivatebuffTimerHandle;
 	FTimerHandle DeactivateDebuffTimerHandle;
 	FTimerHandle DeactivateBuffPlusTimerHandle;
+	FTimerHandle DeactivateDebuffPlusTimerHandle;
+
 
 
 
@@ -90,6 +93,7 @@ private:
 	void ResetLowGravity();
 	void ResetEnemyExplodes();
 	void ResetCanPush();
+	void ResetFieldView();
 	
 	//Debuffs/buffsOmega
 
@@ -100,6 +104,11 @@ private:
 	void LowGravity();
 
 	void EnemyExplodes();
+
+
+	//Debufs plus
+
+	void LessFieldOfView();
 	
 	float* PlayerHealth;
 	
