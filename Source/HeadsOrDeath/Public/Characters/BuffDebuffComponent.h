@@ -36,6 +36,8 @@ public:
 	int ActivateDeBuff();
 	UFUNCTION(Blueprintable,BlueprintCallable)
 	int ActivateBuffPlus();
+	UFUNCTION(Blueprintable,BlueprintCallable)
+	int ActivateDeBuffPlus();
 
 	//Variables
 	int SelectedBuff;
@@ -46,6 +48,7 @@ public:
 	bool HasBuffPlus = false;
 	bool HasBuff = false;
 	bool HasDeBuff = false;
+	bool HasDeBuffPlus = false;
 	
 	float BuffTimer = 10.f;
 	float DebuffTimer = 10.f;
@@ -58,6 +61,8 @@ private:
 	FTimerHandle DeactivatebuffTimerHandle;
 	FTimerHandle DeactivateDebuffTimerHandle;
 	FTimerHandle DeactivateBuffPlusTimerHandle;
+	FTimerHandle DeactivateDeBuffPlusTimerHandle;
+
 
 
 
@@ -84,6 +89,7 @@ private:
 
 	//resetbuffDebuff
 
+	void Reset();
 	void ResetPlayerDmg();
 	void ResetMovementSpeed();
 	void ResetDamageGiven();
@@ -91,6 +97,7 @@ private:
 	void ResetEnemyExplodes();
 	void ResetCanPush();
 	void ResetGameSpeed();
+	void ResetFieldofview();
 	
 	//Debuffs/buffsOmega
 
@@ -103,7 +110,20 @@ private:
 	void EnemyExplodes();
 
 	void SlowDownGame();
+
+	//debuffPlus
+
+	void LessFieldofView();
 	
+	void Movedirectiondebuff();
+		bool RandomDirectionBool = false;
+		FVector MovedirectiondebuffLocation;
+
+
+	void SwitchKeysDebuff();
+		public: bool Switchkeysbool = false;
+	
+	///
 	float* PlayerHealth;
 	
 	class UImage* BuffDebuffImage;

@@ -73,6 +73,10 @@ void AJon::Tick(float DeltaTime)
 }
 void AJon::Movefoward(float Value)
 {
+	if (BuffDebuffComponent->Switchkeysbool == true)
+	{
+		Value = Value * -1;
+	}
 	if (Controller != nullptr && Value)
 	{
 		FRotator CameraYaw = FRotator(0,Controller->GetControlRotation().Yaw,0);
@@ -91,6 +95,10 @@ void AJon::Movefoward(float Value)
 
 void AJon::Moveside(float Value)
 {
+	if (BuffDebuffComponent->Switchkeysbool == true)
+	{
+		Value = Value * -1;
+	}
 	if (Controller != nullptr && Value)
 	{
 		FRotator CameraYaw = FRotator(0,Controller->GetControlRotation().Yaw,0);

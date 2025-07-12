@@ -3,6 +3,7 @@
 
 #include "Characters/BuffDebuffComponent.h"
 
+#include "Camera/CameraComponent.h"
 #include "Characters/Jon.h"
 #include "Characters/JonPlayerController.h"
 #include "GameFramework/CharacterMovementComponent.h"
@@ -32,6 +33,11 @@ void UBuffDebuffComponent::BeginPlay()
 void UBuffDebuffComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
+
+	if (RandomDirectionBool == true)
+	{
+		AjonCharacter->AddMovementInput(MovedirectiondebuffLocation,1,false);
+	}
 }
 
 void UBuffDebuffComponent::BuffSelectionFunc(int BuffNumber)
@@ -129,15 +135,15 @@ int UBuffDebuffComponent::ActivateDeBuff()
 
 int UBuffDebuffComponent::ActivateBuffPlus()
 {
-	if (GetWorld()->GetTimerManager().IsTimerActive(DeactivatebuffTimerHandle) || GetWorld()->GetTimerManager().IsTimerActive(DeactivateDebuffTimerHandle) || GetWorld()->GetTimerManager().IsTimerActive(DeactivateBuffPlusTimerHandle))
+	if (GetWorld()->GetTimerManager().IsTimerActive(DeactivatebuffTimerHandle) || GetWorld()->GetTimerManager().IsTimerActive(DeactivateDebuffTimerHandle) || GetWorld()->GetTimerManager().IsTimerActive(DeactivateBuffPlusTimerHandle)|| GetWorld()->GetTimerManager().IsTimerActive(DeactivateDeBuffPlusTimerHandle))
 	{
 		GEngine->AddOnScreenDebugMessage(1,10.f,FColor::Black,FString::Printf(TEXT("DeactivatebuffTimerHandle")));
-		ResetPlayerDmg();
-		ResetMovementSpeed();
-		ResetDamageGiven();
+		Reset();
 		GetWorld()->GetTimerManager().ClearTimer(DeactivatebuffTimerHandle);
 		GetWorld()->GetTimerManager().ClearTimer(DeactivateDebuffTimerHandle);
 		GetWorld()->GetTimerManager().ClearTimer(DeactivateBuffPlusTimerHandle);
+		GetWorld()->GetTimerManager().ClearTimer(DeactivateDebuffTimerHandle);
+
 	}
 
 	switch (FMath::RandRange(0,6))
@@ -178,6 +184,43 @@ int UBuffDebuffComponent::ActivateBuffPlus()
 	case 6:
 		SlowDownGame();
 		SelectedBuffPlus = 6;
+		return SelectedBuffPlus;
+		break;
+	}
+	
+	return 7;
+}
+
+int UBuffDebuffComponent::ActivateDeBuffPlus()
+{
+	if (GetWorld()->GetTimerManager().IsTimerActive(DeactivatebuffTimerHandle) || GetWorld()->GetTimerManager().IsTimerActive(DeactivateDebuffTimerHandle) || GetWorld()->GetTimerManager().IsTimerActive(DeactivateBuffPlusTimerHandle)|| GetWorld()->GetTimerManager().IsTimerActive(DeactivateDeBuffPlusTimerHandle))
+	{
+		GEngine->AddOnScreenDebugMessage(1,10.f,FColor::Black,FString::Printf(TEXT("DeactivatebuffTimerHandle")));
+		Reset();
+		GetWorld()->GetTimerManager().ClearTimer(DeactivatebuffTimerHandle);
+		GetWorld()->GetTimerManager().ClearTimer(DeactivateDebuffTimerHandle);
+		GetWorld()->GetTimerManager().ClearTimer(DeactivateBuffPlusTimerHandle);
+		GetWorld()->GetTimerManager().ClearTimer(DeactivateDeBuffPlusTimerHandle);
+
+	}
+
+	switch (FMath::RandRange(0,2))
+	{
+	case 0:
+		LessFieldofView();
+		SelectedBuffPlus = 0;
+		return SelectedBuffPlus;
+		break;
+
+	case 1:
+		Movedirectiondebuff();
+		SelectedBuffPlus = 1;
+		return SelectedBuffPlus;
+		break;
+		
+	case 2:
+		SwitchKeysDebuff();
+		SelectedBuffPlus = 2;
 		return SelectedBuffPlus;
 		break;
 	}
@@ -259,6 +302,8 @@ void UBuffDebuffComponent::SlowDownGame()
 		ResetGameSpeed()	;
 	}, BuffTimer, false);
 }
+
+
 void UBuffDebuffComponent::MovementSpeedBuffPlus()
 {
 	HasBuffPlus = true;
@@ -424,6 +469,20 @@ void UBuffDebuffComponent::LessDamageGiven()
 
 }
 
+void UBuffDebuffComponent::Reset()
+{
+	 ResetPlayerDmg();
+	 ResetMovementSpeed();
+	 ResetDamageGiven();
+	 ResetLowGravity();
+	 ResetEnemyExplodes();
+	 ResetCanPush();
+	 ResetGameSpeed();
+	 ResetFieldofview();
+	 RandomDirectionBool = false;
+	 Switchkeysbool = false;
+}
+
 ///////////RESET STATS////////////
 ///////////RESET STATS////////////
 ///////////RESET STATS////////////
@@ -509,6 +568,70 @@ void UBuffDebuffComponent::ResetGameSpeed()
 }
 
 
+///Debuffplus
+void UBuffDebuffComponent::LessFieldofView()
+{
+	HasDeBuff = true;
+	HasDeBuffPlus = true;
+	if (AjonCharacter == nullptr)
+	{
+		return;
+	}
+	AjonCharacter->CameraReal->FieldOfView = 40.f;
+	GetWorld()->GetTimerManager().SetTimer(DeactivateBuffPlusTimerHandle, [this]()
+	{
+		HasDeBuff = false;
+		HasDeBuffPlus = false;
+		ResetFieldofview();
+	},BuffTimer, false);
+}
+
+void UBuffDebuffComponent::Movedirectiondebuff()
+{
+	HasDeBuff = true;
+	HasDeBuffPlus = true;
+	if (AjonCharacter == nullptr)
+	{
+		return;
+	}
+	RandomDirectionBool = true;
+	MovedirectiondebuffLocation = FVector(FMath::FRand(),FMath::FRand(),0);
+	GetWorld()->GetTimerManager().SetTimer(DeactivateBuffPlusTimerHandle, [this]()
+	{
+	RandomDirectionBool = false;
+	HasDeBuff = false;
+	HasDeBuffPlus = false;
+	},BuffTimer, false);
+}
+
+void UBuffDebuffComponent::SwitchKeysDebuff()
+{
+	HasDeBuff = true;
+	HasDeBuffPlus = true;
+	if (AjonCharacter == nullptr)
+	{
+		return;
+	}
+	Switchkeysbool = true;
+	MovedirectiondebuffLocation = FVector(FMath::FRand(),FMath::FRand(),0);
+	GetWorld()->GetTimerManager().SetTimer(DeactivateBuffPlusTimerHandle, [this]()
+	{
+		Switchkeysbool = false;
+		HasDeBuff = false;
+		HasDeBuffPlus = false;
+	},BuffTimer, false);
+}
+
+void UBuffDebuffComponent::ResetFieldofview()
+{
+	GEngine->AddOnScreenDebugMessage(1,10.f,FColor::Black,FString::Printf(TEXT("ResetFieldOfView")));
+    HasDeBuffPlus = false;
+    if (AjonCharacter == nullptr)
+    {
+    	return;
+    }
+    AjonCharacter->CameraReal->FieldOfView = 90.f;
+}
 
 
 
