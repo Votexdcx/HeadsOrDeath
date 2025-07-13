@@ -73,6 +73,12 @@ void AJon::Tick(float DeltaTime)
 }
 void AJon::Movefoward(float Value)
 {
+
+	if (BuffDebuffComponent == nullptr)
+	{
+		return;
+	}
+
 	if (BuffDebuffComponent->Switchkeysbool == true)
 	{
 		Value = Value * -1;
@@ -95,6 +101,11 @@ void AJon::Movefoward(float Value)
 
 void AJon::Moveside(float Value)
 {
+	if (BuffDebuffComponent == nullptr)
+	{
+		return;
+	}
+
 	if (BuffDebuffComponent->Switchkeysbool == true)
 	{
 		Value = Value * -1;
