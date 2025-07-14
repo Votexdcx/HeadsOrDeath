@@ -118,6 +118,9 @@ private:
 	void Movedirectiondebuff();
 		bool RandomDirectionBool = false;
 		FVector MovedirectiondebuffLocation;
+		FTimerHandle GetRandomDirection;
+		void GetrandomLocation();
+
 
 
 	void SwitchKeysDebuff();

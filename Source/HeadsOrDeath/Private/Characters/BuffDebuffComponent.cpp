@@ -204,7 +204,7 @@ int UBuffDebuffComponent::ActivateDeBuffPlus()
 
 	}
 
-	switch (FMath::RandRange(0,2))
+	switch (FMath::RandRange(1,1))
 	{
 	case 0:
 		LessFieldofView();
@@ -595,13 +595,30 @@ void UBuffDebuffComponent::Movedirectiondebuff()
 		return;
 	}
 	RandomDirectionBool = true;
-	MovedirectiondebuffLocation = FVector(FMath::FRand(),FMath::FRand(),0);
+	GetrandomLocation();
+	GetWorld()->GetTimerManager().SetTimer(GetRandomDirection, [this]()
+    {
+		GetrandomLocation();
+    },3, false);
 	GetWorld()->GetTimerManager().SetTimer(DeactivateBuffPlusTimerHandle, [this]()
 	{
 	RandomDirectionBool = false;
 	HasDeBuff = false;
 	HasDeBuffPlus = false;
 	},BuffTimer, false);
+}
+
+void UBuffDebuffComponent::GetrandomLocation()
+{
+	MovedirectiondebuffLocation = FVector(FMath::FRand(),FMath::FRand(),0);
+	GetWorld()->GetTimerManager().SetTimer(GetRandomDirection, [this]()
+	{
+		if(RandomDirectionBool == false)
+		{
+			return;
+		}
+		GetrandomLocation();
+	},3, false);
 }
 
 void UBuffDebuffComponent::SwitchKeysDebuff()
