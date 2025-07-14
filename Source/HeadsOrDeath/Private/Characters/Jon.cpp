@@ -5,7 +5,6 @@
 #include "Characters/Jon.h"
 
 
-#include "SNegativeActionButton.h"
 #include "SWarningOrErrorBox.h"
 #include "Camera/CameraComponent.h"
 #include "Components/CapsuleComponent.h"
