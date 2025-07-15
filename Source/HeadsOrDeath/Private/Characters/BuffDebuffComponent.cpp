@@ -371,7 +371,7 @@ void UBuffDebuffComponent::LowGravity()
 		return;
 	}
 
-	AjonCharacter->GetCharacterMovement()->GravityScale = 0.3f;
+	AjonCharacter->GetCharacterMovement()->GravityScale = 0.2f;
     AjonCharacter->GetCharacterMovement()->AirControl = 1.f;
 	
 	GetWorld()->GetTimerManager().SetTimer(DeactivateBuffPlusTimerHandle, [this]()
