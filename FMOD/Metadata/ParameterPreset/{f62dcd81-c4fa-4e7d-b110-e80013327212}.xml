@@ -2,7 +2,7 @@
 <objects serializationModel="Studio.02.03.00">
 	<object class="ParameterPreset" id="{f62dcd81-c4fa-4e7d-b110-e80013327212}">
 		<property name="name">
-			<value>Parameter 1</value>
+			<value>Buff_plus_Toggle</value>
 		</property>
 		<relationship name="folder">
 			<destination>{f502f16f-dde4-4521-be08-f5f82b939f4d}</destination>

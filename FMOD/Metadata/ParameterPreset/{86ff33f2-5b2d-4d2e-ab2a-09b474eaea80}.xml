@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.03.00">
+	<object class="ParameterPreset" id="{86ff33f2-5b2d-4d2e-ab2a-09b474eaea80}">
+		<property name="name">
+			<value>Buff_plus_Toggle</value>
+		</property>
+		<relationship name="folder">
+			<destination>{7cf85a58-1f02-48ad-8a60-b00a16e9bacf}</destination>
+		</relationship>
+		<relationship name="parameter">
+			<destination>{cd1660f7-73c5-4205-939d-39f5c696d87e}</destination>
+		</relationship>
+	</object>
+	<object class="GameParameter" id="{cd1660f7-73c5-4205-939d-39f5c696d87e}">
+		<property name="parameterType">
+			<value>1</value>
+		</property>
+		<property name="maximum">
+			<value>2</value>
+		</property>
+		<property name="initialValue">
+			<value>0</value>
+		</property>
+	</object>
+</objects>

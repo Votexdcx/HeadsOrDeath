@@ -92,6 +92,9 @@
 		<property name="length">
 			<value>0.72056689342403624</value>
 		</property>
+		<property name="startOffset">
+			<value>6.5</value>
+		</property>
 		<property name="volume">
 			<value>7</value>
 		</property>
