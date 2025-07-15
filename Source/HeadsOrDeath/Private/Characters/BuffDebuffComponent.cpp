@@ -62,6 +62,10 @@ int UBuffDebuffComponent::ActivateBuff()
 			//*PlayerHealth -= 1 * GetWorld()->GetDeltaSeconds();
 		}
 	}
+	if (HasBuffPlus == true || HasDeBuffPlus == true)
+	{
+		return 10;
+	}
 	if (GetWorld()->GetTimerManager().IsTimerActive(DeactivateDebuffTimerHandle))
 	{
 		GEngine->AddOnScreenDebugMessage(1,10.f,FColor::Black,FString::Printf(TEXT("DeactivateDebuffTimerHandle")));
@@ -97,7 +101,7 @@ int UBuffDebuffComponent::ActivateBuff()
 ///////////ACTIVATE DEBUFFS////////////
 int UBuffDebuffComponent::ActivateDeBuff()
 {
-	if (HasBuffPlus == true)
+	if (HasBuffPlus == true || HasDeBuffPlus == true)
 	{
 		return 10;
 	}
