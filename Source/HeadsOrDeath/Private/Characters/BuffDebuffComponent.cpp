@@ -146,7 +146,7 @@ int UBuffDebuffComponent::ActivateBuffPlus()
 
 	}
 
-	switch (FMath::RandRange(0,5))
+	switch (FMath::RandRange(0,6))
 	{
 	case 0:
 		TakeDamageReductionBuffPlus();
@@ -204,7 +204,7 @@ int UBuffDebuffComponent::ActivateDeBuffPlus()
 
 	}
 
-	switch (FMath::RandRange(1,1))
+	switch (FMath::RandRange(0,2))
 	{
 	case 0:
 		LessFieldofView();
@@ -456,9 +456,9 @@ void UBuffDebuffComponent::LessDamageGiven()
 {
 	HasDeBuff = true;
 	if (AjonCharacter == nullptr)
-    	{
-    		return;
-    	}
+    {
+    	return;
+    }
 	AjonCharacter->BaseDamage *= 0.5f;
 
 	GetWorld()->GetTimerManager().SetTimer(DeactivateDebuffTimerHandle, [this]()
@@ -505,7 +505,7 @@ void UBuffDebuffComponent::ResetMovementSpeed()
 	{
 		return;
 	}
-	AjonCharacter->GetCharacterMovement()->MaxWalkSpeed = AjonCharacter->MaxWalkSpeed;
+	AjonCharacter->GetCharacterMovement()->MaxWalkSpeed = 1000;
 }
 
 void UBuffDebuffComponent::ResetDamageGiven()
