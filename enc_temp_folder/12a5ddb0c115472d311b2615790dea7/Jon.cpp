@@ -291,7 +291,7 @@ void AJon::FootSteps()
 			GEngine->AddOnScreenDebugMessage(5,10.f,FColor::Black,FString::Printf(TEXT("footsteps is null")));
 		}
 		FootStepsTimerHandle.Invalidate();
-	}, FMath::RandRange(0.2,0.5), false);
+	}, FMath::RandRange(1,1), false);
 	
 }
 
