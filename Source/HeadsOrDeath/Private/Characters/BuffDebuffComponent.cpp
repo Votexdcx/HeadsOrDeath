@@ -73,9 +73,7 @@ int UBuffDebuffComponent::ActivateBuff()
 	if (GetWorld()->GetTimerManager().IsTimerActive(DeactivateDebuffTimerHandle))
 	{
 		GEngine->AddOnScreenDebugMessage(1,10.f,FColor::Black,FString::Printf(TEXT("DeactivateDebuffTimerHandle")));
-		ResetPlayerDmg();
-		ResetMovementSpeed();
-		ResetDamageGiven();
+		Reset();
 		GetWorld()->GetTimerManager().ClearTimer(DeactivateDebuffTimerHandle);
 	}
 	if (HasBuff == false)
@@ -112,9 +110,7 @@ int UBuffDebuffComponent::ActivateDeBuff()
 	if (GetWorld()->GetTimerManager().IsTimerActive(DeactivatebuffTimerHandle))
 	{
 		GEngine->AddOnScreenDebugMessage(1,10.f,FColor::Black,FString::Printf(TEXT("DeactivatebuffTimerHandle")));
-		ResetPlayerDmg();
-		ResetMovementSpeed();
-		ResetDamageGiven();
+		Reset();
 		GetWorld()->GetTimerManager().ClearTimer(DeactivatebuffTimerHandle);
 	}
 	if (HasDeBuff == false)
