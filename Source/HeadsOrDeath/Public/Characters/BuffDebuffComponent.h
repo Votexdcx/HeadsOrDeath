@@ -121,7 +121,8 @@ private:
 		FTimerHandle GetRandomDirection;
 		void GetrandomLocation();
 
-
+		protected:
+			virtual void BeginDestroy() override;
 
 	void SwitchKeysDebuff();
 		public: bool Switchkeysbool = false;

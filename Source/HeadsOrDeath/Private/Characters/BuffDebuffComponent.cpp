@@ -21,10 +21,14 @@ UBuffDebuffComponent::UBuffDebuffComponent()
 // Called when the game starts
 void UBuffDebuffComponent::BeginPlay()
 {
-	
-	AjonCharacter = Cast<AJon>( GetOwner());
-	JonPlayerController = Cast<AJonPlayerController>( AjonCharacter->GetController());
 	Super::BeginPlay();
+
+	AjonCharacter = Cast<AJon>(GetOwner());
+	if (!IsValid(AjonCharacter)) return;
+
+	JonPlayerController = Cast<AJonPlayerController>(AjonCharacter->GetController());
+	if (!IsValid(JonPlayerController)) return;
+
 	PlayerHealth = &AjonCharacter->PlayerHealth;
 }
 
@@ -246,6 +250,8 @@ void UBuffDebuffComponent::MovementSpeedBuff()
 
 	GetWorld()->GetTimerManager().SetTimer(DeactivatebuffTimerHandle, [this]()
 	{
+			if (!IsValid(this)) return;
+
 		HasBuff = false;
 		ResetMovementSpeed();
 	}, BuffTimer, false);
@@ -262,6 +268,8 @@ void UBuffDebuffComponent::DamageBuff()
 
 	GetWorld()->GetTimerManager().SetTimer(DeactivatebuffTimerHandle, [this]()
 	{
+			if (!IsValid(this)) return;
+
 		HasBuff = false;
 		ResetDamageGiven();
 	},BuffTimer, false);
@@ -278,6 +286,8 @@ void UBuffDebuffComponent::TakeDamageReductionBuff()
 
 	GetWorld()->GetTimerManager().SetTimer(DeactivatebuffTimerHandle, [this]()
 	{
+			if (!IsValid(this)) return;
+
 		HasBuff = false;
 		ResetPlayerDmg();
 	}, BuffTimer, false);
@@ -301,6 +311,8 @@ void UBuffDebuffComponent::SlowDownGame()
 
 	GetWorld()->GetTimerManager().SetTimer(DeactivateBuffPlusTimerHandle, [this]()
 	{
+			if (!IsValid(this)) return;
+
 		HasBuffPlus = false;
 		HasBuff = false;
 		ResetGameSpeed()	;
@@ -320,6 +332,8 @@ void UBuffDebuffComponent::MovementSpeedBuffPlus()
 
 	GetWorld()->GetTimerManager().SetTimer(DeactivateBuffPlusTimerHandle, [this]()
 	{
+			if (!IsValid(this)) return;
+
 		HasBuffPlus = false;
 		HasBuff = false;
 		ResetMovementSpeed();
@@ -338,6 +352,8 @@ void UBuffDebuffComponent::DamageBuffPlus()
 
 	GetWorld()->GetTimerManager().SetTimer(DeactivateBuffPlusTimerHandle, [this]()
 	{
+			if (!IsValid(this)) return;
+
 		HasBuffPlus = false;
 		HasBuff = false;
 		ResetDamageGiven();
@@ -356,6 +372,8 @@ void UBuffDebuffComponent::TakeDamageReductionBuffPlus()
 
 	GetWorld()->GetTimerManager().SetTimer(DeactivateBuffPlusTimerHandle, [this]()
 	{
+			if (!IsValid(this)) return;
+
 		HasBuffPlus = false;
 		HasBuff = false;
 		ResetPlayerDmg();
@@ -376,6 +394,8 @@ void UBuffDebuffComponent::LowGravity()
 	
 	GetWorld()->GetTimerManager().SetTimer(DeactivateBuffPlusTimerHandle, [this]()
 	{
+			if (!IsValid(this)) return;
+
 		HasBuffPlus = false;
 		HasBuff = false;
 		ResetLowGravity();
@@ -395,6 +415,8 @@ void UBuffDebuffComponent::EnemyExplodes()
 	
 	GetWorld()->GetTimerManager().SetTimer(DeactivateBuffPlusTimerHandle, [this]()
 	{
+			if (!IsValid(this)) return;
+
 		HasBuffPlus = false;
 		HasBuff = false;
 		ResetEnemyExplodes();
@@ -413,6 +435,8 @@ void UBuffDebuffComponent::PushEnemies()
 	CanPush = true;
 	GetWorld()->GetTimerManager().SetTimer(DeactivateBuffPlusTimerHandle, [this]()
 	{
+			if (!IsValid(this)) return;
+
 		HasBuffPlus = false;
 		HasBuff = false;
 		ResetCanPush();
@@ -434,6 +458,8 @@ void UBuffDebuffComponent::PlayerTakesMoreDmg()
 
 	GetWorld()->GetTimerManager().SetTimer(DeactivateDebuffTimerHandle, [this]()
 	{
+			if (!IsValid(this)) return;
+
 		HasDeBuff = false;
 		ResetPlayerDmg();
 	}, DebuffTimer, false);
@@ -450,6 +476,8 @@ void UBuffDebuffComponent::MinusMovementSpeed()
 	
 	GetWorld()->GetTimerManager().SetTimer(DeactivateDebuffTimerHandle, [this]()
 	{
+			if (!IsValid(this)) return;
+
 		HasDeBuff = false;
 		ResetMovementSpeed();
 	}, DebuffTimer, false);
@@ -467,6 +495,8 @@ void UBuffDebuffComponent::LessDamageGiven()
 
 	GetWorld()->GetTimerManager().SetTimer(DeactivateDebuffTimerHandle, [this]()
 	{
+			if (!IsValid(this)) return;
+
 		HasDeBuff = false;
 		ResetDamageGiven();
 	}, DebuffTimer, false);
@@ -584,6 +614,8 @@ void UBuffDebuffComponent::LessFieldofView()
 	AjonCharacter->CameraReal->FieldOfView = 40.f;
 	GetWorld()->GetTimerManager().SetTimer(DeactivateBuffPlusTimerHandle, [this]()
 	{
+			if (!IsValid(this)) return;
+
 		HasDeBuff = false;
 		HasDeBuffPlus = false;
 		ResetFieldofview();
@@ -606,6 +638,8 @@ void UBuffDebuffComponent::Movedirectiondebuff()
     },3, false);
 	GetWorld()->GetTimerManager().SetTimer(DeactivateBuffPlusTimerHandle, [this]()
 	{
+			if (!IsValid(this)) return;
+
 	RandomDirectionBool = false;
 	HasDeBuff = false;
 	HasDeBuffPlus = false;
@@ -617,6 +651,8 @@ void UBuffDebuffComponent::GetrandomLocation()
 	MovedirectiondebuffLocation = FVector(FMath::FRand(),FMath::FRand(),0);
 	GetWorld()->GetTimerManager().SetTimer(GetRandomDirection, [this]()
 	{
+			if (!IsValid(this)) return;
+
 		if(RandomDirectionBool == false)
 		{
 			return;
@@ -645,14 +681,45 @@ void UBuffDebuffComponent::SwitchKeysDebuff()
 
 void UBuffDebuffComponent::ResetFieldofview()
 {
-	GEngine->AddOnScreenDebugMessage(1,10.f,FColor::Black,FString::Printf(TEXT("ResetFieldOfView")));
-    HasDeBuffPlus = false;
-    if (AjonCharacter == nullptr)
-    {
-    	return;
-    }
-    AjonCharacter->CameraReal->FieldOfView = 90.f;
+	GEngine->AddOnScreenDebugMessage(1, 10.f, FColor::Black, TEXT("ResetFieldOfView"));
+
+	HasDeBuffPlus = false;
+
+	// First check if this component is valid and still part of a live actor
+	if (!IsValid(this) || !GetOwner() || !GetWorld())
+	{
+		return;
+	}
+
+	// Safely get the character reference
+	AJon* JonCharacter = Cast<AJon>(GetOwner());
+	if (!IsValid(JonCharacter))
+	{
+		return;
+	}
+
+	// Validate the camera component
+	if (!IsValid(JonCharacter->CameraReal))
+	{
+		UE_LOG(LogTemp, Warning, TEXT("CameraReal is null in ResetFieldofview"));
+		return;
+	}
+
+	// Finally safe to modify FOV
+	JonCharacter->CameraReal->FieldOfView = 90.f;
 }
+
+void UBuffDebuffComponent::BeginDestroy()
+{
+	// Clear all timers associated with this component
+	if (GetWorld())
+	{
+		GetWorld()->GetTimerManager().ClearAllTimersForObject(this);
+	}
+
+	Super::BeginDestroy();
+}
+
 
 
 
