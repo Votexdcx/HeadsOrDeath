@@ -235,7 +235,7 @@ void UBuffDebuffComponent::ChangeScene()
 {
 	if (AjonCharacter == nullptr || GetWorld() == nullptr)
 	{
-		return
+		return;
 	}
 	Reset();
 	// Clear all timers associated with this component
