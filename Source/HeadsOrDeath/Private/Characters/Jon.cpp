@@ -87,13 +87,13 @@ void AJon::Movefoward(float Value)
 		FVector Forward  = FRotationMatrix(CameraYaw).GetUnitAxis(EAxis::X);
 		AddMovementInput(Forward, Value);
 		MakeNoise(50, this,GetActorLocation());
-		if (FootStepsTimerHandle.IsValid() == false)
-		{if (GetCharacterMovement()->IsWalking() == false)
-		{
-			return;
-		}
-			FootSteps();
-		}
+		//if (FootStepsTimerHandle.IsValid() == false)
+		//{if (GetCharacterMovement()->IsWalking() == false)
+		//{
+			//return;
+		//}
+			//FootSteps();
+		//}
 	}
 }
 
@@ -114,14 +114,14 @@ void AJon::Moveside(float Value)
 		FVector Right  = FRotationMatrix(CameraYaw).GetUnitAxis(EAxis::Y);
 		AddMovementInput(Right, Value);
 		MakeNoise(50, this,GetActorLocation());
-		if (FootStepsTimerHandle.IsValid() == false)
-		{
-			if (GetCharacterMovement()->IsWalking() == false)
-			{
-				return;
-			}
-			FootSteps();
-		}
+		//if (FootStepsTimerHandle.IsValid() == false)
+		//{
+			//if (GetCharacterMovement()->IsWalking() == false)
+			//{
+				//return;
+			//}
+			//FootSteps();
+		//}
 	}
 }
 
@@ -276,23 +276,28 @@ void AJon::raycast()
 	}
 }
 
-void AJon::FootSteps()
-{
-	GetWorld()->GetTimerManager().SetTimer(FootStepsTimerHandle, [this]()
-	{
-		if (Footsteps)
-		{
-			UFMODBlueprintStatics::PlayEventAtLocation(GetWorld(),Footsteps,GetActorTransform(),true);
-			UE_LOG(LogTemp,Display,TEXT("Footsteps"));
-		}
-		else
-		{
-			UE_LOG(LogTemp,Display,TEXT("Footsteps null"));
-			GEngine->AddOnScreenDebugMessage(5,10.f,FColor::Black,FString::Printf(TEXT("footsteps is null")));
-		}
-		FootStepsTimerHandle.Invalidate();
-	}, FMath::RandRange(1,1), false);
+//void AJon::FootSteps()
+//{
+	//if (GetWorld() == nullptr)
+	//{
+		//return;
+	//}
+	//GetWorld()->GetTimerManager().SetTimer(FootStepsTimerHandle, [this]()
+	//{
+		//if (Footsteps)
+		//{
+			//UFMODBlueprintStatics::PlayEventAtLocation(GetWorld(),Footsteps,GetActorTransform(),true);
+			//UE_LOG(LogTemp,Display,TEXT("Footsteps"));
+		//}
+		//else
+		//{
+			//UE_LOG(LogTemp,Display,TEXT("Footsteps null"));
+			//GEngine->AddOnScreenDebugMessage(5,10.f,FColor::Black,FString::Printf(TEXT("footsteps is null")));
+		//}
+		//FootStepsTimerHandle.Invalidate();
+	//},// FMath::RandRange(0.2,0.5), false);
+//}
 	
-}
+
 
  
