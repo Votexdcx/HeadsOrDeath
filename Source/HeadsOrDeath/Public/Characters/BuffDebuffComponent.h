@@ -38,6 +38,9 @@ public:
 	int ActivateBuffPlus();
 	UFUNCTION(Blueprintable,BlueprintCallable)
 	int ActivateDeBuffPlus();
+	
+	UFUNCTION(Blueprintable,BlueprintCallable)
+	void ChangeScene();
 
 	//Variables
 	int SelectedBuff;
@@ -67,7 +70,9 @@ private:
 
 
 	//Buff Functions
+	
 
+		
 
 	//Buff effecs function
 

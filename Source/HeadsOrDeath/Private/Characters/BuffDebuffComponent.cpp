@@ -231,6 +231,20 @@ int UBuffDebuffComponent::ActivateDeBuffPlus()
 	return 7;
 }
 
+void UBuffDebuffComponent::ChangeScene()
+{
+	if (AjonCharacter == nullptr || GetWorld() == nullptr)
+	{
+		return
+	}
+	Reset();
+	// Clear all timers associated with this component
+	if (GetWorld())
+	{
+		GetWorld()->GetTimerManager().ClearAllTimersForObject(this);
+	}
+}
+
 ///////////BUFFS////////////
 ///////////BUFFS////////////
 ///////////BUFFS////////////
@@ -711,11 +725,6 @@ void UBuffDebuffComponent::ResetFieldofview()
 
 void UBuffDebuffComponent::BeginDestroy()
 {
-	// Clear all timers associated with this component
-	if (GetWorld())
-	{
-		GetWorld()->GetTimerManager().ClearAllTimersForObject(this);
-	}
 
 	Super::BeginDestroy();
 }
