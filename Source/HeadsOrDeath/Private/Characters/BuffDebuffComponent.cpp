@@ -154,7 +154,7 @@ int UBuffDebuffComponent::ActivateBuffPlus()
 
 	}
 
-	switch (FMath::RandRange(6,6))
+	switch (FMath::RandRange(0,6))
 	{
 	case 0:
 		TakeDamageReductionBuffPlus();
