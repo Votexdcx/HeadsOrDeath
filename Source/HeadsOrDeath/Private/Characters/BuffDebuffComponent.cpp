@@ -209,7 +209,6 @@ int UBuffDebuffComponent::ActivateDeBuffPlus()
 		GetWorld()->GetTimerManager().ClearTimer(DeactivateDebuffTimerHandle);
 		GetWorld()->GetTimerManager().ClearTimer(DeactivateBuffPlusTimerHandle);
 		GetWorld()->GetTimerManager().ClearTimer(DeactivateDeBuffPlusTimerHandle);
-
 	}
 
 	switch (FMath::RandRange(0,2))
@@ -253,7 +252,7 @@ void UBuffDebuffComponent::MovementSpeedBuff()
 			if (!IsValid(this)) return;
 
 		HasBuff = false;
-		ResetMovementSpeed();
+		Reset();
 	}, BuffTimer, false);
 }
 
@@ -271,7 +270,7 @@ void UBuffDebuffComponent::DamageBuff()
 			if (!IsValid(this)) return;
 
 		HasBuff = false;
-		ResetDamageGiven();
+		Reset();
 	},BuffTimer, false);
 }
 
@@ -289,7 +288,7 @@ void UBuffDebuffComponent::TakeDamageReductionBuff()
 			if (!IsValid(this)) return;
 
 		HasBuff = false;
-		ResetPlayerDmg();
+		Reset();
 	}, BuffTimer, false);
 }
 
@@ -315,7 +314,7 @@ void UBuffDebuffComponent::SlowDownGame()
 
 		HasBuffPlus = false;
 		HasBuff = false;
-		ResetGameSpeed()	;
+		Reset();
 	}, BuffTimer, false);
 }
 
@@ -336,7 +335,7 @@ void UBuffDebuffComponent::MovementSpeedBuffPlus()
 
 		HasBuffPlus = false;
 		HasBuff = false;
-		ResetMovementSpeed();
+		Reset();
 	}, BuffTimer, false);
 }
 
@@ -356,7 +355,7 @@ void UBuffDebuffComponent::DamageBuffPlus()
 
 		HasBuffPlus = false;
 		HasBuff = false;
-		ResetDamageGiven();
+		Reset();
 	},BuffTimer, false);
 }
 
@@ -376,7 +375,7 @@ void UBuffDebuffComponent::TakeDamageReductionBuffPlus()
 
 		HasBuffPlus = false;
 		HasBuff = false;
-		ResetPlayerDmg();
+		Reset();
 	}, BuffTimer, false);
 }
 
@@ -398,7 +397,7 @@ void UBuffDebuffComponent::LowGravity()
 
 		HasBuffPlus = false;
 		HasBuff = false;
-		ResetLowGravity();
+		Reset();
 	},BuffTimer, false);
 }
 
@@ -419,7 +418,7 @@ void UBuffDebuffComponent::EnemyExplodes()
 
 		HasBuffPlus = false;
 		HasBuff = false;
-		ResetEnemyExplodes();
+		Reset();
 	},BuffTimer, false);
 	
 }
@@ -439,7 +438,7 @@ void UBuffDebuffComponent::PushEnemies()
 
 		HasBuffPlus = false;
 		HasBuff = false;
-		ResetCanPush();
+		Reset();
 	},BuffTimer, false);
 	
 }
@@ -461,7 +460,7 @@ void UBuffDebuffComponent::PlayerTakesMoreDmg()
 			if (!IsValid(this)) return;
 
 		HasDeBuff = false;
-		ResetPlayerDmg();
+		Reset();
 	}, DebuffTimer, false);
 }
 
@@ -479,7 +478,7 @@ void UBuffDebuffComponent::MinusMovementSpeed()
 			if (!IsValid(this)) return;
 
 		HasDeBuff = false;
-		ResetMovementSpeed();
+		Reset();
 	}, DebuffTimer, false);
 
 }
@@ -498,13 +497,18 @@ void UBuffDebuffComponent::LessDamageGiven()
 			if (!IsValid(this)) return;
 
 		HasDeBuff = false;
-		ResetDamageGiven();
+		Reset();
 	}, DebuffTimer, false);
 
 }
 
 void UBuffDebuffComponent::Reset()
 {
+	if (GetWorld() == nullptr || AjonCharacter == nullptr)
+	{
+		return;
+	}
+	
 	 ResetPlayerDmg();
 	 ResetMovementSpeed();
 	 ResetDamageGiven();
@@ -618,7 +622,7 @@ void UBuffDebuffComponent::LessFieldofView()
 
 		HasDeBuff = false;
 		HasDeBuffPlus = false;
-		ResetFieldofview();
+		Reset();
 	},BuffTimer, false);
 }
 
