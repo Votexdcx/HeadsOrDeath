@@ -150,7 +150,7 @@ int UBuffDebuffComponent::ActivateBuffPlus()
 
 	}
 
-	switch (FMath::RandRange(0,6))
+	switch (FMath::RandRange(0,5))
 	{
 	case 0:
 		TakeDamageReductionBuffPlus();
@@ -174,7 +174,7 @@ int UBuffDebuffComponent::ActivateBuffPlus()
 		break;
 		
 	case 4:
-		EnemyExplodes();
+		SlowDownGame();
 		SelectedBuffPlus = 4;
 		return SelectedBuffPlus;
 		break;
@@ -185,11 +185,7 @@ int UBuffDebuffComponent::ActivateBuffPlus()
 		return SelectedBuffPlus;
 		break;
 
-	case 6:
-		SlowDownGame();
-		SelectedBuffPlus = 6;
-		return SelectedBuffPlus;
-		break;
+	
 	}
 	
 	return 7;
@@ -411,28 +407,6 @@ void UBuffDebuffComponent::LowGravity()
 	},BuffTimer, false);
 }
 
-void UBuffDebuffComponent::EnemyExplodes()
-{
-	HasBuffPlus = true;
-	HasBuff = true;
-	if (AjonCharacter == nullptr)
-	{
-		return;
-	}
-
-	IsEnemyExplodable = true;
-	
-	GetWorld()->GetTimerManager().SetTimer(DeactivateBuffPlusTimerHandle, [this]()
-	{
-			if (!IsValid(this)) return;
-
-		HasBuffPlus = false;
-		HasBuff = false;
-		Reset();
-	},BuffTimer, false);
-	
-}
-
 void UBuffDebuffComponent::PushEnemies()
 {
 	HasBuffPlus = true;
@@ -523,7 +497,6 @@ void UBuffDebuffComponent::Reset()
 	 ResetMovementSpeed();
 	 ResetDamageGiven();
 	 ResetLowGravity();
-	 ResetEnemyExplodes();
 	 ResetCanPush();
 	 ResetGameSpeed();
 	 ResetFieldofview();
@@ -569,7 +542,7 @@ void UBuffDebuffComponent::ResetDamageGiven()
 
 void UBuffDebuffComponent::ResetLowGravity()
 {
-	GEngine->AddOnScreenDebugMessage(1,10.f,FColor::Black,FString::Printf(TEXT("ResetDamageGiven")));
+	GEngine->AddOnScreenDebugMessage(1,10.f,FColor::Black,FString::Printf(TEXT("ResetLowGravity")));
 	HasDeBuff = false;
 	if (AjonCharacter == nullptr)
 	{
@@ -579,22 +552,11 @@ void UBuffDebuffComponent::ResetLowGravity()
 	AjonCharacter->GetCharacterMovement()->AirControl = 0.5f;
 }
 
-void UBuffDebuffComponent::ResetEnemyExplodes()
-{
-	
-	GEngine->AddOnScreenDebugMessage(1,10.f,FColor::Black,FString::Printf(TEXT("Resetenemyexplodes")));
-	HasDeBuff = false;
-	if (AjonCharacter == nullptr)
-	{
-		return;
-	}
-	IsEnemyExplodable = false;
 
-}
 
 void UBuffDebuffComponent::ResetCanPush()
 {
-	GEngine->AddOnScreenDebugMessage(1,10.f,FColor::Black,FString::Printf(TEXT("Resetenemyexplodes")));
+	GEngine->AddOnScreenDebugMessage(1,10.f,FColor::Black,FString::Printf(TEXT("ResetCanPush")));
 	HasDeBuff = false;
 	if (AjonCharacter == nullptr)
 	{
